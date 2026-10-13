@@ -59,7 +59,7 @@ if (typeof document !== 'undefined') {
  if(form){
   let preparedBlob=null, preparedURL=null, message='', version=0;
   const prepared=document.querySelector('#prepared'), status=document.querySelector('#status'), preview=document.querySelector('#preview'), submitButton=form.querySelector('[type="submit"]');
-  function reset(){version++;preparedBlob=null;message='';prepared.hidden=true;document.querySelector('#email-draft').removeAttribute('href');preview.removeAttribute('src');if(preparedURL)URL.revokeObjectURL(preparedURL);preparedURL=null;status.textContent='';submitButton.disabled=false;}
+  function reset(){document.dispatchEvent(new CustomEvent('mm-reset'));version++;preparedBlob=null;message='';prepared.hidden=true;document.querySelector('#email-draft').removeAttribute('href');preview.removeAttribute('src');if(preparedURL)URL.revokeObjectURL(preparedURL);preparedURL=null;status.textContent='';submitButton.disabled=false;}
   form.addEventListener('input',reset);
   window.addEventListener('pagehide',reset);
   if(window.self!==window.top){document.querySelector('#submission-panel').hidden=true;const p=document.createElement('p');p.textContent='Open the original Many Maybes submission page directly to prepare an image.';document.querySelector('main').append(p);}
@@ -91,7 +91,7 @@ if (typeof document !== 'undefined') {
     document.querySelector('#preview-title').textContent=title;
     document.querySelector('#preview-credit').textContent=name||'Anonymous creator';
     document.querySelector('#preview-reason').textContent=reason;
-    message=submissionText(title,name,reason);
+    message=submissionText(title,name,reason);document.dispatchEvent(new CustomEvent('mm-prepared',{detail:{blob,title,name,reason}}));
     document.querySelector('#email-draft').href=`mailto:${MM_EMAIL}?subject=${encodeURIComponent('Many Maybes - Challenge 01 submission')}&body=${encodeURIComponent(message)}`;
     prepared.hidden=false;status.textContent='Prepared locally. Nothing has been sent. Download the image, then attach it to the email draft.';
    }catch(err){if(attempt===version)status.textContent=err instanceof Error?err.message:'Image preparation failed. Try a different JPEG or PNG.';}
