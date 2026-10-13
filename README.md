@@ -1,9 +1,9 @@
 # Many Maybes public website
 
-Public, static Challenge 01 pilot. All files in this repository are intended for public access. Internal brand research and account notes live in the separate private project repository.
+Public static Challenge 01 pilot, deployed with GitHub Pages from main/root. All tracked files are intended for public access. Challenge code lives at https://github.com/trymanymaybes/many-maybes-challenges ; internal project materials remain in the private project repository.
 
-This site uses local image preparation and email submission with manual review. There is no automatic upload, database, user login, analytics, or comments service.
+The gallery contains illustrative examples, not participant submissions. Submission images are prepared locally and emailed separately for manual review; no automatic upload, accounts, analytics or comments service. Individual gallery pages offer sharing links, downloadable images and embed code for blogs/websites. Social media generally uses links or uploaded images.
 
-Publish with GitHub Pages from `main` / root, with HTTPS enabled. Do not add secrets, original participant emails, unreviewed attachments, identity documents, or research notes here.
+The challenge, instructions and printable PDF share the same rules: preserve all original marks and their relative positions, allow whole-starter rotation/uniform scaling, and explore an object, a place and something happening. Examples explain thinking moves. Narrated social videos remain in private review; this site does not publish or embed those video files.
 
-The original Python Turtle generator is optional. Downloaded PNG/SVG/PDF files work without installing it.
+Do not add secrets, identity documents, participant emails, unreviewed submissions or internal research. Keep the strict local-only CSP and submission limits. Changes should preserve existing links and challenge QR destination.

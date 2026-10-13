@@ -43,7 +43,7 @@ function submissionText(title,name,reason) {
 }
 if (typeof module !== 'undefined' && module.exports) module.exports={imageDimensions,validateDimensions,cleanText,submissionText};
 if (typeof document !== 'undefined') {
- const samplePages = new Set(['orbit-garden.html','maybe-machine.html','worlds-in-conversation.html']);
+ const samplePages = new Set(['orbit-garden.html','maybe-machine.html','worlds-in-conversation.html','cultural-park.html','underwater.html','artists-desk.html']);
  const filename=location.pathname.split('/').pop();
  if(samplePages.has(filename) && new URLSearchParams(location.search).has('embed')) document.body.classList.add('embed');
  const toast=t=>{const el=document.querySelector('.toast');el.textContent=t;clearTimeout(window.mmToastTimer);window.mmToastTimer=setTimeout(()=>{el.textContent='';},6000);};
