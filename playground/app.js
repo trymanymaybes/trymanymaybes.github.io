@@ -8,7 +8,8 @@ const turtleCanvas=document.createElement('canvas'), turtleCtx=turtleCanvas.getC
 let turtleDrawing=[],runSequence=0,drawingEnabled=true,showStarter=true;
 const defaultCode='# The starter is already visible. Add your own idea below.\nimport turtle as t\n\nt.pencolor("#b65878")\nt.pensize(3)\nt.penup()\nt.goto(0, 0)\nt.pendown()\n\n# Try a line, a circle, a pattern…\nt.forward(60)\n';
 $('code').value=defaultCode;
-let key='01', strokes=[],redo=[],active=null,tool='pen',base=null,ready=false,dirty=false,loadId=0,points=0;
+const requestedChallenge=new URLSearchParams(location.search).get('challenge');
+let key=Object.hasOwn(challenges,requestedChallenge)?requestedChallenge:'01', strokes=[],redo=[],active=null,tool='pen',base=null,ready=false,dirty=false,loadId=0,points=0;
 const status=message=>$('status').textContent=message;
 for(const [id,c] of Object.entries(challenges)){const o=document.createElement('option');o.value=id;o.textContent=c.title;$('challenge').append(o);}
 $('challenge').value=key;

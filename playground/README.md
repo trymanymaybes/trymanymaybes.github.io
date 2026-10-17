@@ -1,6 +1,6 @@
 # Browser playground
 
-Standalone `/playground/` endpoint in the static website. Main-site navigation, challenge assets, generation scripts and submission integrations remain unchanged. Authentication is unnecessary for local creation. Browser functional and security checks run in GitHub Actions before release.
+Standalone `/playground/` endpoint in the static website. Challenge pages link directly to the matching starter through an allowlisted challenge query parameter. Raw starter geometry and submission integrations remain unchanged. Authentication is unnecessary for local creation. Browser functional and security checks run in GitHub Actions before release.
 
 ## Delivered
 
@@ -47,7 +47,7 @@ JS syntax and local asset references checked. Unit tests use Node VM to execute 
 
 ## Browser release checks
 
-The `Playground browser and security checks` workflow runs the 29 Node tests plus 35 real-browser scenarios in Chromium, Firefox, WebKit, Android-sized Chromium and iPhone-sized WebKit. Run locally from `playground/browser-tests` using `npm ci`, `npx playwright install --with-deps`, and `npm test`. These dependencies are for maintainers only; visitors install nothing.
+The `Playground browser and security checks` workflow runs the 29 Node tests plus 40 real-browser scenarios in Chromium, Firefox, WebKit, Android-sized Chromium and iPhone-sized WebKit. Run locally from `playground/browser-tests` using `npm ci`, `npx playwright install --with-deps`, and `npm test`. These dependencies are for maintainers only; visitors install nothing.
 
 Browser checks cover:
 - Actual opaque iframe/worker origins, parent DOM/cookie/localStorage denial, IndexedDB denial, and blocked fetch/XHR/WebSocket/importScripts. A local test server counts attempted requests and WebSocket upgrades so error callbacks alone cannot falsely pass the network test.
@@ -58,4 +58,4 @@ Browser checks cover:
 
 These are browser-engine tests with emulated device layouts, not physical Android/iPhone tests or branded Chrome/Edge/Safari certification. They do not prove a hard memory quota or absence of all browser/interpreter vulnerabilities. In-app browsers may differ. The workflow's latest green run and checked commit identify release evidence.
 
-Main-site navigation links and generator integration remain deferred. The playground is public and requires no login; future hosted gallery submissions and admin access remain separate.
+Challenge links and QR distribution assets are integrated; browser drawing remains independent of production media generation. The playground is public and requires no login; future hosted gallery submissions and admin access remain separate.
