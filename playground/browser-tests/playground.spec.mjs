@@ -77,14 +77,14 @@ test('canvas toolbar toggle, editable starter and help examples',async({page},te
 test.describe('HTTPS challenge navigation',()=>{
  test.use({ignoreHTTPSErrors:true}); // Local ephemeral certificate only; page CSP remains enforced.
  test('challenge links select the matching starter and reject unknown IDs',async({page})=>{
- for(const id of ['01','03','04','05']){
+ for(const id of ['01','02','03','04','05']){
   await page.goto('https://127.0.0.1:4174/challenge-'+id+'.html');await page.getByRole('link',{name:'Draw this challenge'}).click();await expect(page.locator('#status')).toContainText('ready');await expect(page.locator('#challenge')).toHaveValue(id);await expect(page.locator('#challenge-link')).toHaveAttribute('href','../challenge-'+id+'.html');
  }
  await page.goto('/playground/?challenge=__proto__');await expect(page.locator('#challenge')).toHaveValue('01');
 });
 
  test('playground submission keeps challenge context and explains the available route',async({page,context})=>{
-  for(const id of ['01','03','04','05','blank']){
+  for(const id of ['01','02','03','04','05','blank']){
    await page.goto('https://127.0.0.1:4174/playground/?challenge='+id);
    await expect(page.locator('#status')).toContainText('ready');
    const popup=context.waitForEvent('page');await page.locator('#submit-link').click();const submission=await popup;

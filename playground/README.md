@@ -4,7 +4,7 @@ Standalone `/playground/` endpoint in the static website. Challenge pages link d
 
 ## Delivered
 
-- Published starters 01, 03, 04, 05 and a blank canvas.
+- Published starters 01, 02, 03, 04, 05 and a blank canvas.
 - Canvas toolbar with mouse/touch/stylus freehand drawing, colour/width, eraser, undo/redo and a drawing on/off toggle for touch scrolling.
 - Code editor above the canvas, Image / Editable code starter modes, command help and insertable square, flower and label examples. Switching modes replaces the script and turtle result after confirmation when work is present; freehand marks stay. Starter scripts reproduce the challenge marks; page titles and footers are omitted.
 - Python turtle editor with Run, Stop, local `.py` open/save, and bounded console output.

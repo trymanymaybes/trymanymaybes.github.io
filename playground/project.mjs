@@ -1,6 +1,7 @@
 import {MAX_CODE,validateDrawing} from './protocol.mjs';
 export const challenges = Object.freeze({
   '01': {title:'01 · A few marks, many possibilities', image:'../starter.svg', width:800,height:600, prompt:'Explore an object, a place, or something happening.', page:'../challenge-01.html'},
+  '02': {title:'02 · The gap does the work',image:'../challenge-02-marks.svg',width:800,height:800,prompt:'Keep both shapes in place. Leave the central gap completely blank; add clues around it.',page:'../challenge-02.html'},
   '03': {title:'03 · How big is this, really?',image:'../challenge-03-starter.svg',width:800,height:800,prompt:'Imagine the same four circles at a different scale.',page:'../challenge-03.html'},
   '04': {title:'04 · What happened here?',image:'../challenge-04-starter.svg',width:800,height:800,prompt:'Add clues that suggest a story.',page:'../challenge-04.html'},
   '05': {title:'05 · What connects them?',image:'../challenge-05-starter.svg',width:800,height:800,prompt:'Imagine a connection between the original marks.',page:'../challenge-05.html'},
