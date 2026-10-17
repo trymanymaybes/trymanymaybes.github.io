@@ -104,4 +104,23 @@ test.describe('HTTPS challenge navigation',()=>{
   }
  });
 
+ test('submission catalogue accepts future IDs, preserves OAuth choice and resets prepared state',async({page})=>{
+  await page.route('**/submission-challenges.json',route=>route.fulfill({json:{items:[{id:'01',title:'Challenge 01'},{id:'future-99',title:'A new possibility'},{id:'blank',title:'Free creation'}]}}));
+  await page.goto('https://127.0.0.1:4174/submit.html?challenge=future-99');
+  await expect(page.locator('#submission-challenge-select')).toHaveValue('future-99');
+  await expect(page.locator('#submission-challenge')).toContainText('A new possibility');
+  await page.evaluate(()=>sessionStorage.setItem('mm-return-challenge','future-99'));
+  await page.goto('https://127.0.0.1:4174/submit.html?code=test-callback');
+  await expect(page.locator('#submission-challenge-select')).toHaveValue('future-99');
+  await page.locator('#file').setInputFiles({name:'image.png',mimeType:'image/png',buffer:Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jXioAAAAASUVORK5CYII=','base64')});
+  await page.locator('#title').fill('Future idea');await page.locator('#permission').check();
+  await page.getByRole('button',{name:'Prepare my submission',exact:true}).click();
+  await expect(page.locator('#prepared')).toBeVisible();
+  await expect(page.locator('#email-draft')).toHaveAttribute('href',/A%20new%20possibility/);
+  await page.locator('#submission-challenge-select').selectOption('blank');await expect(page.locator('#prepared')).toBeHidden();
+  await page.goto('https://127.0.0.1:4174/submit.html?challenge=closed');
+  await expect(page.locator('#submission-challenge-select')).toHaveValue('');
+  await expect(page.locator('#challenge-status')).toContainText('not open');
+ });
+
 });

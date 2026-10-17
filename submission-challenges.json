@@ -1,0 +1,28 @@
+{
+  "items": [
+    {
+      "id": "01",
+      "title": "Challenge 01"
+    },
+    {
+      "id": "02",
+      "title": "Challenge 02"
+    },
+    {
+      "id": "03",
+      "title": "Challenge 03"
+    },
+    {
+      "id": "04",
+      "title": "Challenge 04"
+    },
+    {
+      "id": "05",
+      "title": "Challenge 05"
+    },
+    {
+      "id": "blank",
+      "title": "Free creation"
+    }
+  ]
+}
