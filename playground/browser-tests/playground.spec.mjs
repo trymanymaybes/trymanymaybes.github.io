@@ -5,7 +5,7 @@ async function run(page,source){await page.locator('#code').fill(source);await p
 const pixels=page=>page.locator('#drawing').evaluate(c=>c.toDataURL());
 test('run turtle, preserve hand marks, download and restore project',async({page},testInfo)=>{
  await open(page);await page.locator('#challenge').selectOption('blank');await expect(page.locator('#status')).toContainText('ready');
- await page.locator('#drawing').scrollIntoViewIfNeeded();const box=await page.locator('#drawing').boundingBox();await page.mouse.move(box.x+30,box.y+30);await page.mouse.down();await page.mouse.move(box.x+90,box.y+70,{steps:8});await page.mouse.up();
+ await page.locator('#drawing').scrollIntoViewIfNeeded();const box=await page.locator('#drawing').boundingBox();await page.mouse.move(box.x+box.width/2,box.y+box.height/2);await page.mouse.down();await page.mouse.move(box.x+box.width/2+60,box.y+box.height/2+40,{steps:8});await page.mouse.up();await expect(page.locator('#undo')).toBeEnabled();
  const hand=await pixels(page);await run(page,'import turtle as t\nt.pencolor("red")\nt.forward(100)\nprint("hello")');await expect(page.locator('#console')).toHaveText('hello\n');
  const combined=await pixels(page);expect(combined).not.toEqual(hand);
  await page.locator('#clear-code').click();expect(await pixels(page)).toEqual(hand);
