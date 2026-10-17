@@ -8,3 +8,5 @@
 /* Let the canvas toolbar wrap naturally at every screen width. */
 .canvas-wrap,.canvas-wrap:has(#drawing-tools[hidden]){padding-top:0}
 .canvas-toolbar{position:relative;top:auto;left:auto;right:auto;margin:10px}
+
+#starter-modes .tools{max-width:360px;margin-top:6px}.starter-label{font-size:13px;font-weight:600}

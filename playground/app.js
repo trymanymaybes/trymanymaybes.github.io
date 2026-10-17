@@ -31,12 +31,12 @@ $('size').oninput=()=>{$('size-label').value=$('size').value;};
 $('undo').onclick=()=>{finish();if(strokes.length){const s=strokes.pop();points-=s.points.length;redo.push(s);dirty=true;render();}};
 $('redo').onclick=()=>{if(redo.length){const s=redo.pop();strokes.push(s);points+=s.points.length;dirty=true;render();}};
 $('clear').onclick=()=>{finish();if(!strokes.length||!confirm('Clear your drawing? Save a project first if you want to keep it.'))return;strokes=[];redo=[];points=0;dirty=true;render();status('Your drawing was cleared. The starter is unchanged.');};
-$('challenge').onchange=()=>{finish();if(dirty&&!confirm('Change starting point and discard unsaved work?')){$('challenge').value=key;return;}stopCode();key=$('challenge').value;showStarter=key!=='blank';$('show-starter').checked=showStarter;strokes=[];redo=[];points=0;turtleDrawing=[];$('code').value=defaultCode;dirty=false;load();};
+$('challenge').onchange=()=>{finish();if(dirty&&!confirm('Change starting point and discard unsaved work?')){$('challenge').value=key;return;}stopCode();key=$('challenge').value;showStarter=key!=='blank';syncStarterMode();strokes=[];redo=[];points=0;turtleDrawing=[];$('code').value=defaultCode;dirty=false;load();};
 function download(blob,name){const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),30000);}
 $('download').onclick=()=>{finish();canvas.toBlob(blob=>{if(blob){download(blob,`many-maybes-${key}.png`);status('Image download started. Save a project too if you want to edit later.');}else status('Image export failed. Please try again.');},'image/png');};
 $('save').onclick=()=>{try{finish();const project=validateProject({format:'many-maybes-playground',version:3,showStarter,challenge:key,strokes,code:$('code').value,drawing:turtleDrawing});download(new Blob([JSON.stringify(project)],{type:'application/json'}),`many-maybes-${key}.json`);dirty=false;status('Project download started. Keep the file to continue later.');}catch(e){status(e.message);}};
 $('open').onclick=()=>$('file').click();
-$('file').onchange=async()=>{const f=$('file').files[0];$('file').value='';if(!f)return;try{if(f.size>MAX_BYTES)throw new Error('Project is too large. Maximum size is 8 MB.');const p=validateProject(JSON.parse(await f.text()));finish();if(dirty&&!confirm('Replace your unsaved drawing with this project?'))return;stopCode();key=p.challenge;showStarter=p.showStarter??true;$('show-starter').checked=showStarter;turtleDrawing=p.drawing||[];$('code').value=p.code??defaultCode;strokes=p.strokes;redo=[];points=strokes.reduce((n,s)=>n+s.points.length,0);dirty=false;await load();}catch(e){status(e instanceof SyntaxError?'Could not read this project. Choose a saved Many Maybes JSON file.':e.message);}};
+$('file').onchange=async()=>{const f=$('file').files[0];$('file').value='';if(!f)return;try{if(f.size>MAX_BYTES)throw new Error('Project is too large. Maximum size is 8 MB.');const p=validateProject(JSON.parse(await f.text()));finish();if(dirty&&!confirm('Replace your unsaved drawing with this project?'))return;stopCode();key=p.challenge;showStarter=p.showStarter??true;syncStarterMode();turtleDrawing=p.drawing||[];$('code').value=p.code??defaultCode;strokes=p.strokes;redo=[];points=strokes.reduce((n,s)=>n+s.points.length,0);dirty=false;await load();}catch(e){status(e instanceof SyntaxError?'Could not read this project. Choose a saved Many Maybes JSON file.':e.message);}};
 window.addEventListener('beforeunload',e=>{if(dirty){e.preventDefault();e.returnValue='';}});
 load();
 
@@ -75,13 +75,22 @@ $('drawing-toggle').onclick=()=>{
  for(const attribute of ['aria-pressed','aria-expanded'])$('drawing-toggle').setAttribute(attribute,String(drawingEnabled));
  $('drawing-tools').hidden=!drawingEnabled;canvas.classList.toggle('drawing-disabled',!drawingEnabled);
 };
-$('show-starter').onchange=()=>{showStarter=$('show-starter').checked;dirty=true;render();};
-$('load-starter').onclick=()=>{
- if($('code').value!==defaultCode&&!confirm('Replace the script with the selected starter code? Save your script first to keep it.'))return;
- stopCode();$('code').value=starterCode[key];showStarter=false;$('show-starter').checked=false;
- turtleDrawing=[];dirty=true;paintTurtle();render();
- $('code-status').textContent='Editable starter loaded. Click Run to draw it. Reference image hidden to avoid duplicate marks.';
-};
+function syncStarterMode(){
+ $('starter-modes').hidden=key==='blank';
+ $('starter-image').setAttribute('aria-pressed',String(showStarter));
+ $('starter-code').setAttribute('aria-pressed',String(!showStarter));
+ $('starter-help').textContent=key==='blank'?'Blank canvas: draw freehand or write turtle code.':showStarter?'Image starter: original challenge artwork stays underneath your code and freehand marks.':'Editable code starter: challenge shapes are in your script. Click Run to draw them; the image is hidden.';
+}
+function chooseStarterMode(image){
+ if(showStarter===image)return;
+ if(($('code').value!==defaultCode||turtleDrawing.length)&&!confirm('Switch starter mode? This replaces your current script and turtle drawing. Save your project first to keep them. Freehand marks will stay.'))return;
+ finish();stopCode();showStarter=image;$('code').value=image?defaultCode:starterCode[key];
+ turtleDrawing=[];dirty=true;syncStarterMode();paintTurtle();render();
+ $('code-status').textContent=image?'Image starter selected. Add code or freehand marks.':'Editable starter loaded. Click Run to draw the challenge shapes.';
+}
+$('starter-image').onclick=()=>chooseStarterMode(true);
+$('starter-code').onclick=()=>chooseStarterMode(false);
+syncStarterMode();
 for(const [name,source] of Object.entries(examples))$('example-'+name).onclick=()=>{
  const code=$('code').value+'\n'+source;
  if(code.length>MAX_CODE){$('code-status').textContent='The example would exceed the script size limit.';return;}

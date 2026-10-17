@@ -6,7 +6,7 @@ Standalone `/playground/` endpoint in the static website. Main-site navigation, 
 
 - Published starters 01, 03, 04, 05 and a blank canvas.
 - Canvas toolbar with mouse/touch/stylus freehand drawing, colour/width, eraser, undo/redo and a drawing on/off toggle for touch scrolling.
-- Code editor above the canvas, editable challenge starter code, reference-image visibility, command help and insertable square, flower and label examples. Starter scripts reproduce the challenge marks; page titles and footers are omitted.
+- Code editor above the canvas, Image / Editable code starter modes, command help and insertable square, flower and label examples. Switching modes replaces the script and turtle result after confirmation when work is present; freehand marks stay. Starter scripts reproduce the challenge marks; page titles and footers are omitted.
 - Python turtle editor with Run, Stop, local `.py` open/save, and bounded console output.
 - Three layers: starter, last successful turtle result, freehand drawing. Rerunning replaces only the turtle layer; erasing affects only freehand. Failed/stopped runs preserve the prior result. Painting can obscure original marks: visitors are reminded to keep them visible for challenge entries.
 - PNG export; JSON project v3 retains editor text, last successful turtle output, freehand data and reference-image visibility. V1 and V2 projects still load. Opening scripts/projects never executes them automatically.
