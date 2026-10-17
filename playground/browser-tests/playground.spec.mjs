@@ -74,9 +74,13 @@ test('canvas toolbar toggle, editable starter and help examples',async({page},te
  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
 });
 
-test('challenge links select the matching starter and reject unknown IDs',async({page})=>{
+test.describe('HTTPS challenge navigation',()=>{
+ test.use({ignoreHTTPSErrors:true}); // Local ephemeral certificate only; page CSP remains enforced.
+ test('challenge links select the matching starter and reject unknown IDs',async({page})=>{
  for(const id of ['01','03','04','05']){
-  await page.goto('/challenge-'+id+'.html');await page.getByRole('link',{name:'Draw this challenge'}).click();await expect(page.locator('#status')).toContainText('ready');await expect(page.locator('#challenge')).toHaveValue(id);await expect(page.locator('#challenge-link')).toHaveAttribute('href','../challenge-'+id+'.html');
+  await page.goto('https://127.0.0.1:4174/challenge-'+id+'.html');await page.getByRole('link',{name:'Draw this challenge'}).click();await expect(page.locator('#status')).toContainText('ready');await expect(page.locator('#challenge')).toHaveValue(id);await expect(page.locator('#challenge-link')).toHaveAttribute('href','../challenge-'+id+'.html');
  }
  await page.goto('/playground/?challenge=__proto__');await expect(page.locator('#challenge')).toHaveValue('01');
+});
+
 });
