@@ -62,11 +62,12 @@ test('canvas toolbar toggle, editable starter and help examples',async({page},te
  await page.mouse.click(b.x+20,b.y+20);expect(await pixels(page)).toEqual(original);
  await page.locator('#drawing-toggle').click();await expect(page.locator('#drawing-tools')).toBeVisible();
  await page.locator('#drawing').scrollIntoViewIfNeeded();b=await page.locator('#drawing').boundingBox();await page.mouse.click(b.x+20,b.y+20);expect(await pixels(page)).not.toEqual(original);
- await page.locator('#load-starter').click();await expect(page.locator('#show-starter')).not.toBeChecked();
+ await page.locator('#starter-code').click();await expect(page.locator('#starter-code')).toHaveAttribute('aria-pressed','true');
  expect(await page.locator('#code').inputValue()).toContain('circle_at');
+ page.removeAllListeners('dialog');page.once('dialog',d=>d.dismiss());await page.locator('#starter-image').click();await expect(page.locator('#starter-code')).toHaveAttribute('aria-pressed','true');expect(await page.locator('#code').inputValue()).toContain('circle_at');page.on('dialog',d=>d.accept());
  await page.locator('#run').click();await expect(page.locator('#code-status')).toContainText('Done',{timeout:15000});
  const expected=await pixels(page);const saving=page.waitForEvent('download');await page.locator('#save').click();const file=await saving;const json=await fs.readFile(await file.path());expect(JSON.parse(json).showStarter).toBe(false);
- await page.locator('#show-starter').check();await page.locator('#file').setInputFiles({name:'starter.json',mimeType:'application/json',buffer:json});await expect(page.locator('#status')).toContainText('ready');await expect(page.locator('#show-starter')).not.toBeChecked();expect(await pixels(page)).toEqual(expected);
+ await page.locator('#starter-image').click();await expect(page.locator('#starter-image')).toHaveAttribute('aria-pressed','true');await page.locator('#file').setInputFiles({name:'starter.json',mimeType:'application/json',buffer:json});await expect(page.locator('#status')).toContainText('ready');await expect(page.locator('#starter-code')).toHaveAttribute('aria-pressed','true');expect(await pixels(page)).toEqual(expected);
  await page.screenshot({path:testInfo.outputPath('toolbar.png'),fullPage:true});
  await page.locator('#code-help summary').click();await page.locator('#example-flower').click();expect(await page.locator('#code').inputValue()).toContain('range(12)');
  await page.locator('#run').click();await expect(page.locator('#code-status')).toContainText('Done',{timeout:15000});
