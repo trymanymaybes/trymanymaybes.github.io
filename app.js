@@ -38,8 +38,8 @@ function validateDimensions(dim) {
   return dim;
 }
 function cleanText(s,max) {return String(s).normalize('NFC').replace(/[\u0000-\u001f\u007f\u202a-\u202e\u2066-\u2069]/g,' ').trim().slice(0,max);}
-function submissionText(title,name,reason) {
- return `Challenge: 01 - A few marks, many possibilities.\nTitle: ${cleanText(title,90)}\nPublic pseudonym: ${cleanText(name,40)||'Anonymous creator'}\nExplanation: ${cleanText(reason,800)||'(none)'}\n\nI am 18 or older. This is my work or I have permission to share it. I permit Many Maybes to publish the reviewed image, title, public pseudonym and explanation on its public gallery. My sender email must not be published.\n\nI have attached the prepared image and checked it for visible personal information.\n\nPlease reply with a gallery link if selected. I can reply to withdraw publication permission.`;
+function submissionText(title,name,reason,challengeLabel="01 - A few marks, many possibilities.") {
+ return `Challenge: ${challengeLabel}\nTitle: ${cleanText(title,90)}\nPublic pseudonym: ${cleanText(name,40)||'Anonymous creator'}\nExplanation: ${cleanText(reason,800)||'(none)'}\n\nI am 18 or older. This is my work or I have permission to share it. I permit Many Maybes to publish the reviewed image, title, public pseudonym and explanation on its public gallery. My sender email must not be published.\n\nI have attached the prepared image and checked it for visible personal information.\n\nPlease reply with a gallery link if selected. I can reply to withdraw publication permission.`;
 }
 if (typeof module !== 'undefined' && module.exports) module.exports={imageDimensions,validateDimensions,cleanText,submissionText};
 if (typeof document !== 'undefined') {
@@ -57,6 +57,7 @@ if (typeof document !== 'undefined') {
  document.querySelector('[data-action="copy-embed"]')?.addEventListener('click',()=>copy(document.querySelector('#embed-code').value));
  const form=document.querySelector('#submission-form');
  if(form){
+  const context=window.MM_SUBMISSION_CONTEXT||{key:'01',label:'Challenge 01'};
   let preparedBlob=null, preparedURL=null, message='', version=0;
   const prepared=document.querySelector('#prepared'), status=document.querySelector('#status'), preview=document.querySelector('#preview'), submitButton=form.querySelector('[type="submit"]');
   function reset(){document.dispatchEvent(new CustomEvent('mm-reset'));version++;preparedBlob=null;message='';prepared.hidden=true;document.querySelector('#email-draft').removeAttribute('href');preview.removeAttribute('src');if(preparedURL)URL.revokeObjectURL(preparedURL);preparedURL=null;status.textContent='';submitButton.disabled=false;}
@@ -91,13 +92,13 @@ if (typeof document !== 'undefined') {
     document.querySelector('#preview-title').textContent=title;
     document.querySelector('#preview-credit').textContent=name||'Anonymous creator';
     document.querySelector('#preview-reason').textContent=reason;
-    message=submissionText(title,name,reason);document.dispatchEvent(new CustomEvent('mm-prepared',{detail:{blob,title,name,reason}}));
-    document.querySelector('#email-draft').href=`mailto:${MM_EMAIL}?subject=${encodeURIComponent('Many Maybes - Challenge 01 submission')}&body=${encodeURIComponent(message)}`;
+    message=submissionText(title,name,reason,context.label);document.dispatchEvent(new CustomEvent('mm-prepared',{detail:{blob,title,name,reason}}));
+    document.querySelector('#email-draft').href=`mailto:${MM_EMAIL}?subject=${encodeURIComponent('Many Maybes - '+context.label+' submission')}&body=${encodeURIComponent(message)}`;
     prepared.hidden=false;status.textContent='Prepared locally. Nothing has been sent. Download the image, then attach it to the email draft.';
    }catch(err){if(attempt===version)status.textContent=err instanceof Error?err.message:'Image preparation failed. Try a different JPEG or PNG.';}
    finally{bitmap?.close();if(attempt===version)submitButton.disabled=false;}
   });
-  document.querySelector('[data-action="download-prepared"]').addEventListener('click',()=>{if(!preparedBlob||!preparedURL)return;const a=document.createElement('a');a.href=preparedURL;a.download='many-maybes-challenge-01.jpg';a.click();toast('Attach the downloaded JPEG to your email draft.');});
+  document.querySelector('[data-action="download-prepared"]').addEventListener('click',()=>{if(!preparedBlob||!preparedURL)return;const a=document.createElement('a');a.href=preparedURL;a.download='many-maybes-'+context.key+'.jpg';a.click();toast('Attach the downloaded JPEG to your email draft.');});
   document.querySelector('[data-action="copy-submission"]').addEventListener('click',()=>{if(message)copy(message);});
  }
 }

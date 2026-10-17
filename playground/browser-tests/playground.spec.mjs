@@ -83,4 +83,25 @@ test.describe('HTTPS challenge navigation',()=>{
  await page.goto('/playground/?challenge=__proto__');await expect(page.locator('#challenge')).toHaveValue('01');
 });
 
+ test('playground submission keeps challenge context and explains the available route',async({page,context})=>{
+  for(const id of ['01','03','04','05','blank']){
+   await page.goto('https://127.0.0.1:4174/playground/?challenge='+id);
+   await expect(page.locator('#status')).toContainText('ready');
+   const popup=context.waitForEvent('page');await page.locator('#submit-link').click();const submission=await popup;
+   await submission.waitForLoadState();
+   await expect(submission.locator('#submission-challenge')).toContainText(id==='blank'?'Free creation':'Challenge '+id);
+   await expect(submission.locator('#submission-instructions')).toContainText('No website login is needed');
+   await expect(submission.locator('#direct-submissions')).toBeHidden();
+   const png=await page.locator('#drawing').evaluate(c=>c.toDataURL().split(',')[1]);
+   await submission.locator('#file').setInputFiles({name:'drawing.png',mimeType:'image/png',buffer:Buffer.from(png,'base64')});
+   await submission.locator('#title').fill('My maybe');await submission.locator('#permission').check();
+   await submission.getByRole('button',{name:'Prepare my submission',exact:true}).click();
+   await expect(submission.locator('#prepared')).toBeVisible();
+   const href=decodeURIComponent(await submission.locator('#email-draft').getAttribute('href'));
+   expect(href).toContain(id==='blank'?'Free creation':'Challenge '+id);
+   await expect(page.locator('#challenge')).toHaveValue(id);
+   await submission.close();
+  }
+ });
+
 });
