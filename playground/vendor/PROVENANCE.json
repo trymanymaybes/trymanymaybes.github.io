@@ -1,0 +1,12 @@
+{
+  "package": "skulpt",
+  "version": "1.2.0",
+  "source": "https://registry.npmjs.org/skulpt/-/skulpt-1.2.0.tgz",
+  "upstream": "https://github.com/skulpt/skulpt/tree/1.2.0",
+  "archive_sha512": "4f472fd2c7523972e52094eec9749e609dd315d5984997d7d8f7012e944aaca6777536d541744c898b9d4ae928db1cdcc8c89fe3b0d2d9285ab42c2309bb12b0",
+  "files_sha256": {
+    "LICENSE-skulpt.txt": "e407544486b5cff8bdb1faa9930ae5d980fd363d1003d3a032f9915674da0fa9",
+    "skulpt-stdlib.js": "e3ecccbc17c6164d19ed3c5561aaaeb752c38c8efa2d88b62b5fb7a7e1b086a7",
+    "skulpt.min.js": "1a319d8eedf314dba5af2444313e3cf2ac072a335df0f5100277e8f49b64eae9"
+  }
+}

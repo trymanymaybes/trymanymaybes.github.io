@@ -1,0 +1,30 @@
+name: Playground browser and security checks
+on:
+  push:
+    branches: [feat/browser-playground-step-1, main]
+permissions:
+  contents: read
+jobs:
+  browser-checks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node --test playground/tests/*.test.mjs
+      - run: npm ci --ignore-scripts
+        working-directory: playground/browser-tests
+      - run: npx playwright install --with-deps chromium firefox webkit
+        working-directory: playground/browser-tests
+      - run: npm test
+        working-directory: playground/browser-tests
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playground-browser-results
+          path: playground/browser-tests/test-results/
+          retention-days: 7

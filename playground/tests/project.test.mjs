@@ -1,0 +1,11 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {validateProject,MAX_POINTS,challenges} from '../project.mjs';
+const valid=()=>({format:'many-maybes-playground',version:1,challenge:'01',strokes:[{tool:'pen',color:'#233f36',size:4,points:[[0,0],[800,600]]}]});
+test('round trips supported drawing data',()=>assert.deepEqual(validateProject(valid()),valid()));
+test('accepts every published starter and blank canvas',()=>{for(const challenge of Object.keys(challenges))assert.equal(validateProject({...valid(),challenge}).challenge,challenge);});
+test('drops extra fields rather than trusting uploaded data',()=>{const p=valid();p.script='alert(1)';p.strokes[0].src='https://example.com';assert.deepEqual(validateProject(p),valid());});
+test('rejects prototype keys, paths and unknown challenges',()=>{for(const challenge of ['__proto__','constructor','../admin.html','02'])assert.throws(()=>validateProject({...valid(),challenge}));});
+test('rejects invalid geometry and paint',()=>{for(const patch of [{size:Infinity},{size:0},{size:49},{tool:'script'},{color:'url(https://example.com)'},{points:[[NaN,2]]},{points:[[-1,2]]},{points:[[801,0]]},{points:[]}]){const p=valid();Object.assign(p.strokes[0],patch);assert.throws(()=>validateProject(p));}});
+test('bounds file complexity',()=>{const p=valid();p.strokes[0].points=Array(MAX_POINTS+1).fill([0,0]);assert.throws(()=>validateProject(p));p.strokes=Array(2001).fill(valid().strokes[0]);assert.throws(()=>validateProject(p));});
+test('rejects malformed roots and versions',()=>{for(const p of [null,[],{}, {...valid(),version:2}, {...valid(),strokes:{}}])assert.throws(()=>validateProject(p));});
