@@ -5,7 +5,7 @@ async function run(page,source){await page.locator('#code').fill(source);await p
 const pixels=page=>page.locator('#drawing').evaluate(c=>c.toDataURL());
 test('run turtle, preserve hand marks, download and restore project',async({page},testInfo)=>{
  await open(page);await page.locator('#challenge').selectOption('blank');await expect(page.locator('#status')).toContainText('ready');
- const box=await page.locator('#drawing').boundingBox();await page.mouse.move(box.x+30,box.y+30);await page.mouse.down();await page.mouse.move(box.x+90,box.y+70,{steps:8});await page.mouse.up();
+ await page.locator('#drawing').scrollIntoViewIfNeeded();const box=await page.locator('#drawing').boundingBox();await page.mouse.move(box.x+box.width/2,box.y+box.height/2);await page.mouse.down();await page.mouse.move(box.x+box.width/2+60,box.y+box.height/2+40,{steps:8});await page.mouse.up();await expect(page.locator('#undo')).toBeEnabled();
  const hand=await pixels(page);await run(page,'import turtle as t\nt.pencolor("red")\nt.forward(100)\nprint("hello")');await expect(page.locator('#console')).toHaveText('hello\n');
  const combined=await pixels(page);expect(combined).not.toEqual(hand);
  await page.locator('#clear-code').click();expect(await pixels(page)).toEqual(hand);
@@ -52,4 +52,23 @@ test('real iframe denies parent DOM and storage; direct navigation stays inert',
 test('independent watchdog stops a non-yielding worker',async({page})=>{
  await open(page);const result=await probe(page,'onmessage=()=>{while(true){}};');expect(result.error).toContain('6-second limit');
  await expect(page.locator('#run')).toBeEnabled();
+});
+
+test('canvas toolbar toggle, editable starter and help examples',async({page},testInfo)=>{
+ await open(page);
+ expect(await page.locator('#code').evaluate(el=>!!(el.compareDocumentPosition(document.querySelector('#drawing'))&Node.DOCUMENT_POSITION_FOLLOWING))).toBe(true);
+ await page.locator('#drawing-toggle').click();await expect(page.locator('#drawing-tools')).toBeHidden();
+ await page.locator('#drawing').scrollIntoViewIfNeeded();let b=await page.locator('#drawing').boundingBox();const original=await pixels(page);
+ await page.mouse.click(b.x+20,b.y+20);expect(await pixels(page)).toEqual(original);
+ await page.locator('#drawing-toggle').click();await expect(page.locator('#drawing-tools')).toBeVisible();
+ await page.locator('#drawing').scrollIntoViewIfNeeded();b=await page.locator('#drawing').boundingBox();await page.mouse.click(b.x+20,b.y+20);expect(await pixels(page)).not.toEqual(original);
+ await page.locator('#load-starter').click();await expect(page.locator('#show-starter')).not.toBeChecked();
+ expect(await page.locator('#code').inputValue()).toContain('circle_at');
+ await page.locator('#run').click();await expect(page.locator('#code-status')).toContainText('Done',{timeout:15000});
+ const expected=await pixels(page);const saving=page.waitForEvent('download');await page.locator('#save').click();const file=await saving;const json=await fs.readFile(await file.path());expect(JSON.parse(json).showStarter).toBe(false);
+ await page.locator('#show-starter').check();await page.locator('#file').setInputFiles({name:'starter.json',mimeType:'application/json',buffer:json});await expect(page.locator('#status')).toContainText('ready');await expect(page.locator('#show-starter')).not.toBeChecked();expect(await pixels(page)).toEqual(expected);
+ await page.screenshot({path:testInfo.outputPath('toolbar.png'),fullPage:true});
+ await page.locator('#code-help summary').click();await page.locator('#example-flower').click();expect(await page.locator('#code').inputValue()).toContain('range(12)');
+ await page.locator('#run').click();await expect(page.locator('#code-status')).toContainText('Done',{timeout:15000});
+ expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
 });
