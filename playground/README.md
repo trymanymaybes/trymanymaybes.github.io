@@ -1,14 +1,15 @@
-# Browser playground — steps 1 and 2
+# Browser playground
 
 Standalone `/playground/` endpoint in the static website. Main-site navigation, challenge assets, generation scripts and submission integrations remain unchanged. Authentication is unnecessary for local creation. Browser functional and security checks run in GitHub Actions before release.
 
 ## Delivered
 
 - Published starters 01, 03, 04, 05 and a blank canvas.
-- Mouse/touch/stylus freehand drawing, colour/width, eraser, undo/redo.
+- Canvas toolbar with mouse/touch/stylus freehand drawing, colour/width, eraser, undo/redo and a drawing on/off toggle for touch scrolling.
+- Code editor above the canvas, editable challenge starter code, reference-image visibility, command help and insertable square, flower and label examples. Starter scripts reproduce the challenge marks; page titles and footers are omitted.
 - Python turtle editor with Run, Stop, local `.py` open/save, and bounded console output.
 - Three layers: starter, last successful turtle result, freehand drawing. Rerunning replaces only the turtle layer; erasing affects only freehand. Failed/stopped runs preserve the prior result. Painting can obscure original marks: visitors are reminded to keep them visible for challenge entries.
-- PNG export; JSON project v2 retains editor text, last successful turtle output and freehand data. V1 freehand projects still load. Opening scripts/projects never executes them automatically.
+- PNG export; JSON project v3 retains editor text, last successful turtle output, freehand data and reference-image visibility. V1 and V2 projects still load. Opening scripts/projects never executes them automatically.
 - No accounts, uploads or autosave. Save explicitly; mobile browsers may omit exit warnings.
 
 ## Python compatibility
@@ -36,20 +37,22 @@ The existing Challenge 01 `draw_starter(t)` function runs unchanged when passed 
 
 ## Verification performed
 
-`node --test playground/tests/*.test.mjs` — 22 tests covering:
+`node --test playground/tests/*.test.mjs` — 29 tests covering:
 - Geometry, positive/negative circles, multiple turtles, functions, fills, RGB, text, seeded random, and the unchanged Challenge 01 drawing function.
+- Editable starter geometry compared against every published challenge, plus all help examples.
 - Rejected filesystem/browser imports and missing desktop APIs; infinite-loop timeout; bounded output; fresh state per execution.
-- Project v1/v2 validation, active-content rejection, output limits, prototype/path identifiers, bootstrap CSP hash, standalone refusal, parent handshake and termination logic.
+- Project v1/v2/v3 validation, active-content rejection, output limits, prototype/path identifiers, bootstrap CSP hash, standalone refusal, parent handshake and termination logic.
 
 JS syntax and local asset references checked. Unit tests use Node VM to execute the same interpreter; sandbox bootstrap tests use mocks. Those unit tests alone do not verify browser isolation; the additional Playwright workflow below tests browser enforcement and teardown.
 
 ## Browser release checks
 
-The `Playground browser and security checks` workflow runs the 22 Node tests plus 30 real-browser scenarios in Chromium, Firefox, WebKit, Android-sized Chromium and iPhone-sized WebKit. Run locally from `playground/browser-tests` using `npm ci`, `npx playwright install --with-deps`, and `npm test`. These dependencies are for maintainers only; visitors install nothing.
+The `Playground browser and security checks` workflow runs the 29 Node tests plus 35 real-browser scenarios in Chromium, Firefox, WebKit, Android-sized Chromium and iPhone-sized WebKit. Run locally from `playground/browser-tests` using `npm ci`, `npx playwright install --with-deps`, and `npm test`. These dependencies are for maintainers only; visitors install nothing.
 
 Browser checks cover:
 - Actual opaque iframe/worker origins, parent DOM/cookie/localStorage denial, IndexedDB denial, and blocked fetch/XHR/WebSocket/importScripts. A local test server counts attempted requests and WebSocket upgrades so error callbacks alone cannot falsely pass the network test.
 - Independent watchdog termination of a non-yielding worker, Stop teardown, and recovery with a new run.
+- Canvas toolbar toggle, starter code, reference visibility persistence, help examples, and code-before-canvas layout.
 - Script import without execution, turtle/freehand layer persistence, PNG signature, project round trip, rejected files/imports, touch input and narrow layout overflow.
 - Saved desktop/mobile screenshots for review in workflow artifacts.
 
