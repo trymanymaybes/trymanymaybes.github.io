@@ -9,7 +9,7 @@ export const challenges = Object.freeze({
 export const MAX_POINTS=50000, MAX_STROKES=2000, MAX_BYTES=8*1024*1024;
 export function validateProject(data){
   const fail=()=>{throw new Error('This is not a supported Many Maybes project.');};
-  if(!data || data.format!=='many-maybes-playground' || ![1,2].includes(data.version) || !Object.hasOwn(challenges,data.challenge) || !Array.isArray(data.strokes) || data.strokes.length>MAX_STROKES) fail();
+  if(!data || data.format!=='many-maybes-playground' || ![1,2,3].includes(data.version) || !Object.hasOwn(challenges,data.challenge) || !Array.isArray(data.strokes) || data.strokes.length>MAX_STROKES) fail();
   let count=0;
   const strokes=data.strokes.map(s=>{
     if(!s || !['pen','eraser'].includes(s.tool) || !/^#[0-9a-f]{6}$/i.test(s.color) || !Number.isFinite(s.size) || s.size<1 || s.size>48 || !Array.isArray(s.points) || !s.points.length) fail();
@@ -18,9 +18,10 @@ export function validateProject(data){
     return {tool:s.tool,color:s.color,size:s.size,points};
   });
   const result = {format:'many-maybes-playground',version:data.version,challenge:data.challenge,strokes};
-  if(data.version===2){
+  if(data.version>=2){
     if(typeof data.code!=='string'||data.code.length>MAX_CODE)fail();
     result.code=data.code;result.drawing=validateDrawing(data.drawing);
   }
+  if(data.version===3){if(typeof data.showStarter!=='boolean')fail();result.showStarter=data.showStarter;}
   return result;
 }

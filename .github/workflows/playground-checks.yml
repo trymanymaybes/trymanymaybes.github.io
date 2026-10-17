@@ -1,7 +1,7 @@
 name: Playground browser and security checks
 on:
   push:
-    branches: [feat/browser-playground-step-1, main]
+    branches: ['feat/playground-*', main]
 permissions:
   contents: read
 jobs:
