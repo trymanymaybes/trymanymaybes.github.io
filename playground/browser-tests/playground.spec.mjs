@@ -112,7 +112,7 @@ test.describe('HTTPS challenge navigation',()=>{
   await page.evaluate(()=>sessionStorage.setItem('mm-return-challenge','future-99'));
   await page.goto('https://127.0.0.1:4174/submit.html?code=test-callback');
   await expect(page.locator('#submission-challenge-select')).toHaveValue('future-99');
-  await page.locator('#file').setInputFiles({name:'image.png',mimeType:'image/png',buffer:Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jXioAAAAASUVORK5CYII=','base64')});
+  await page.locator('#file').setInputFiles({name:'image.png',mimeType:'image/png',buffer:await fs.readFile(new URL('../../cultural-park.png',import.meta.url))});
   await page.locator('#title').fill('Future idea');await page.locator('#permission').check();
   await page.getByRole('button',{name:'Prepare my submission',exact:true}).click();
   await expect(page.locator('#prepared')).toBeVisible();
