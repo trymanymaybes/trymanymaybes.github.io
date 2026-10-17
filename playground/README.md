@@ -1,6 +1,6 @@
 # Browser playground — steps 1 and 2
 
-Standalone `/playground/` endpoint in the static website. Main-site navigation, challenge assets, generation scripts and submission integrations remain unchanged. Authentication is unnecessary for local creation. **Draft: browser integration/security QA remains a release gate.**
+Standalone `/playground/` endpoint in the static website. Main-site navigation, challenge assets, generation scripts and submission integrations remain unchanged. Authentication is unnecessary for local creation. Browser functional and security checks run in GitHub Actions before release.
 
 ## Delivered
 
@@ -41,14 +41,18 @@ The existing Challenge 01 `draw_starter(t)` function runs unchanged when passed 
 - Rejected filesystem/browser imports and missing desktop APIs; infinite-loop timeout; bounded output; fresh state per execution.
 - Project v1/v2 validation, active-content rejection, output limits, prototype/path identifiers, bootstrap CSP hash, standalone refusal, parent handshake and termination logic.
 
-JS syntax and local asset references checked. Unit tests use Node VM to execute the same interpreter; sandbox bootstrap tests use mocks. **They do not verify browser enforcement of CSP, opaque-origin workers, memory isolation or real iframe teardown.**
+JS syntax and local asset references checked. Unit tests use Node VM to execute the same interpreter; sandbox bootstrap tests use mocks. Those unit tests alone do not verify browser isolation; the additional Playwright workflow below tests browser enforcement and teardown.
 
-## Release gate / next step
+## Browser release checks
 
-Browser tooling was unavailable in this environment. Keep the PR draft until actual-browser testing passes:
+The `Playground browser and security checks` workflow runs the 22 Node tests plus 30 real-browser scenarios in Chromium, Firefox, WebKit, Android-sized Chromium and iPhone-sized WebKit. Run locally from `playground/browser-tests` using `npm ci`, `npx playwright install --with-deps`, and `npm test`. These dependencies are for maintainers only; visitors install nothing.
 
-1. Chrome, Edge, Firefox, Safari; Android Chrome and iOS Safari: runtime load, script Run/Stop, loop timeout, errors, local files, export, save/reopen and responsive/touch controls.
-2. Confirm iframe and worker origins are opaque; access to parent DOM, cookies, localStorage and IndexedDB is denied. Confirm actual network attempts (`fetch`, XHR, WebSocket, importScripts) are blocked by inherited CSP and no request reaches an endpoint. Use controlled test fixtures, not published bypass controls.
-3. Confirm the bootstrap does nothing when navigated directly or embedded without sandbox; wrong-window/port and stale results are ignored; Stop and all timeout paths terminate the worker; parent page stays responsive.
-4. Confirm code/handwritten layers persist across reruns, eraser does not erase the starter, and PNG/project round trips reproduce the image.
-5. Only then merge/deploy the standalone endpoint. Main-site links and generator integration remain a separate later step.
+Browser checks cover:
+- Actual opaque iframe/worker origins, parent DOM/cookie/localStorage denial, IndexedDB denial, and blocked fetch/XHR/WebSocket/importScripts. A local test server counts attempted requests and WebSocket upgrades so error callbacks alone cannot falsely pass the network test.
+- Independent watchdog termination of a non-yielding worker, Stop teardown, and recovery with a new run.
+- Script import without execution, turtle/freehand layer persistence, PNG signature, project round trip, rejected files/imports, touch input and narrow layout overflow.
+- Saved desktop/mobile screenshots for review in workflow artifacts.
+
+These are browser-engine tests with emulated device layouts, not physical Android/iPhone tests or branded Chrome/Edge/Safari certification. They do not prove a hard memory quota or absence of all browser/interpreter vulnerabilities. In-app browsers may differ. The workflow's latest green run and checked commit identify release evidence.
+
+Main-site navigation links and generator integration remain deferred. The playground is public and requires no login; future hosted gallery submissions and admin access remain separate.

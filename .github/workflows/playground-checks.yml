@@ -2,8 +2,6 @@ name: Playground browser and security checks
 on:
   push:
     branches: [feat/browser-playground-step-1, main]
-  pull_request:
-    paths: ['playground/**', '.github/workflows/playground-checks.yml']
 permissions:
   contents: read
 jobs:
