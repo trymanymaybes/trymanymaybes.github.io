@@ -57,7 +57,6 @@ if (typeof document !== 'undefined') {
  document.querySelector('[data-action="copy-embed"]')?.addEventListener('click',()=>copy(document.querySelector('#embed-code').value));
  const form=document.querySelector('#submission-form');
  if(form){
-  const context=window.MM_SUBMISSION_CONTEXT||{key:'01',label:'Challenge 01'};
   let preparedBlob=null, preparedURL=null, message='', version=0;
   const prepared=document.querySelector('#prepared'), status=document.querySelector('#status'), preview=document.querySelector('#preview'), submitButton=form.querySelector('[type="submit"]');
   function reset(){document.dispatchEvent(new CustomEvent('mm-reset'));version++;preparedBlob=null;message='';prepared.hidden=true;document.querySelector('#email-draft').removeAttribute('href');preview.removeAttribute('src');if(preparedURL)URL.revokeObjectURL(preparedURL);preparedURL=null;status.textContent='';submitButton.disabled=false;}
@@ -67,6 +66,8 @@ if (typeof document !== 'undefined') {
   form.addEventListener('submit',async e=>{
    e.preventDefault();if(window.self!==window.top)return;
    reset();const attempt=version;
+   const context=document.querySelector('#submission-challenge-select')?window.MM_SUBMISSION_CONTEXT:{key:'01',label:'Challenge 01'};
+   if(!context){status.textContent='Choose an open challenge before preparing your image.';return;}
    if(!form.reportValidity())return;
    const file=document.querySelector('#file').files[0], title=cleanText(document.querySelector('#title').value,90), name=cleanText(document.querySelector('#name').value,40), reason=cleanText(document.querySelector('#reason').value,800);
    if(!title){status.textContent='Please give your interpretation a title.';return;}
@@ -92,13 +93,13 @@ if (typeof document !== 'undefined') {
     document.querySelector('#preview-title').textContent=title;
     document.querySelector('#preview-credit').textContent=name||'Anonymous creator';
     document.querySelector('#preview-reason').textContent=reason;
-    message=submissionText(title,name,reason,context.label);document.dispatchEvent(new CustomEvent('mm-prepared',{detail:{blob,title,name,reason}}));
+    message=submissionText(title,name,reason,context.label);document.dispatchEvent(new CustomEvent('mm-prepared',{detail:{blob,title,name,reason,challenge:context.key}}));
     document.querySelector('#email-draft').href=`mailto:${MM_EMAIL}?subject=${encodeURIComponent('Many Maybes - '+context.label+' submission')}&body=${encodeURIComponent(message)}`;
     prepared.hidden=false;status.textContent='Prepared locally. Nothing has been sent. Download the image, then attach it to the email draft.';
    }catch(err){if(attempt===version)status.textContent=err instanceof Error?err.message:'Image preparation failed. Try a different JPEG or PNG.';}
    finally{bitmap?.close();if(attempt===version)submitButton.disabled=false;}
   });
-  document.querySelector('[data-action="download-prepared"]').addEventListener('click',()=>{if(!preparedBlob||!preparedURL)return;const a=document.createElement('a');a.href=preparedURL;a.download='many-maybes-'+context.key+'.jpg';a.click();toast('Attach the downloaded JPEG to your email draft.');});
+  document.querySelector('[data-action="download-prepared"]').addEventListener('click',()=>{if(!preparedBlob||!preparedURL)return;const a=document.createElement('a');a.href=preparedURL;a.download='many-maybes-'+(window.MM_SUBMISSION_CONTEXT?.key||'01')+'.jpg';a.click();toast('Attach the downloaded JPEG to your email draft.');});
   document.querySelector('[data-action="copy-submission"]').addEventListener('click',()=>{if(message)copy(message);});
  }
 }
