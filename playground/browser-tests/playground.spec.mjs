@@ -161,3 +161,8 @@ for(const name of ['park','underwater','desk'])test('completed '+name+' loads an
  const code=await page.locator('#code').inputValue();await run(page,code+'\nprint("SCENE_COMPLETE")');await expect(page.locator('#console')).toHaveText('SCENE_COMPLETE\n');
  await page.locator('#drawing').screenshot({path:testInfo.outputPath(name+'.png')});
 });
+
+test('background remains visible behind image starter marks',async({page})=>{
+ await open(page);await run(page,'import turtle\nturtle.bgcolor("#123456")');
+ expect(await page.locator('#drawing').evaluate(c=>Array.from(c.getContext('2d').getImageData(0,0,1,1).data))).toEqual([18,52,86,255]);
+});
