@@ -182,6 +182,20 @@ for(const name of artworkNames)test('published '+name+' artwork renders and surv
  await page.locator('#file').setInputFiles({name:'artwork.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(project))});await expect(page.locator('#code')).toHaveValue('');await expect(page.locator('#status')).toContainText('ready');
  const before=await pixels(page);const event=page.waitForEvent('download');await page.locator('#save').click();const file=await event;
  const saved=JSON.parse(await fs.readFile(await file.path(),'utf8'));expect(saved.drawing).toEqual(drawing);
- await page.locator('#clear-code').click();await page.locator('#file').setInputFiles({name:'artwork.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(saved))});await expect(page.locator('#status')).toContainText('ready');await expect.poll(()=>pixels(page)).toEqual(before);
+ await page.locator('#clear-code').click();await page.locator('#file').setInputFiles({name:'artwork.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(saved))});await expect(page.locator('#status')).toContainText('ready');// WebKit can vary two edge pixels by one channel level after repaint.
+ // Compare decoded pixels with a tiny explicit tolerance, not PNG byte strings.
+ const difference=await page.locator('#drawing').evaluate(async(c,png)=>{
+  const bytes=Uint8Array.from(atob(png.split(',')[1]),ch=>ch.charCodeAt(0));
+  const url=URL.createObjectURL(new Blob([bytes],{type:'image/png'}));
+  try{
+   const image=new Image();image.src=url;await image.decode();
+   const expected=document.createElement('canvas');expected.width=c.width;expected.height=c.height;expected.getContext('2d').drawImage(image,0,0);
+   const a=expected.getContext('2d').getImageData(0,0,c.width,c.height).data,b=c.getContext('2d').getImageData(0,0,c.width,c.height).data;
+   let changed=0,maxChannelDelta=0;
+   for(let i=0;i<a.length;i+=4){let delta=0;for(let j=0;j<4;j++)delta=Math.max(delta,Math.abs(a[i+j]-b[i+j]));if(delta)changed++;maxChannelDelta=Math.max(maxChannelDelta,delta);}
+   return {changed,maxChannelDelta};
+  }finally{URL.revokeObjectURL(url);}
+ },before);
+ expect(difference.maxChannelDelta).toBeLessThanOrEqual(1);expect(difference.changed).toBeLessThanOrEqual(4);
  await page.locator('#drawing').screenshot({path:testInfo.outputPath(name+'.png')});
 });
