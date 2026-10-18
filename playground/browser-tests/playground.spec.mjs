@@ -166,3 +166,22 @@ test('background remains visible behind image starter marks',async({page})=>{
  await open(page);await run(page,'import turtle\nturtle.bgcolor("#123456")');
  expect(await page.locator('#drawing').evaluate(c=>Array.from(c.getContext('2d').getImageData(0,0,1,1).data))).toEqual([18,52,86,255]);
 });
+
+for(const name of ['canyon','theatre','photograph'])test('Challenge 02 '+name+' full Python scene and protected gap',async({page},testInfo)=>{
+ await open(page);await page.locator('#challenge').selectOption('blank');
+ const source=await fs.readFile(new URL('../examples/02-'+name+'.py',import.meta.url),'utf8');
+ await run(page,source+'\nprint("SCENE_COMPLETE")');await expect(page.locator('#console')).toHaveText('SCENE_COMPLETE\n');
+ for(const [x,y] of [[400,200],[400,300],[400,400],[400,500]])expect(await page.locator('#drawing').evaluate((c,[x,y])=>Array.from(c.getContext('2d').getImageData(x,y,1,1).data),[x,y])).toEqual([250,247,239,255]);
+ await page.locator('#drawing').screenshot({path:testInfo.outputPath('02-'+name+'.png')});
+});
+import {artworkNames,artworkCommands} from '../tests/artwork-fixtures.mjs';
+for(const name of artworkNames)test('published '+name+' artwork renders and survives project export',async({page},testInfo)=>{
+ await open(page);
+ const source=await fs.readFile(new URL('../../challenge-'+name+'.svg',import.meta.url),'utf8');
+ const drawing=artworkCommands(source);const project={format:'many-maybes-playground',version:3,challenge:name.slice(0,2),showStarter:false,strokes:[],code:'',drawing};
+ await page.locator('#file').setInputFiles({name:'artwork.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(project))});await expect(page.locator('#code')).toHaveValue('');await expect(page.locator('#status')).toContainText('ready');
+ const before=await pixels(page);const event=page.waitForEvent('download');await page.locator('#save').click();const file=await event;
+ const saved=JSON.parse(await fs.readFile(await file.path(),'utf8'));expect(saved.drawing).toEqual(drawing);
+ await page.locator('#clear-code').click();await page.locator('#file').setInputFiles({name:'artwork.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(saved))});await expect(page.locator('#status')).toContainText('ready');await expect.poll(()=>pixels(page)).toEqual(before);
+ await page.locator('#drawing').screenshot({path:testInfo.outputPath(name+'.png')});
+});
