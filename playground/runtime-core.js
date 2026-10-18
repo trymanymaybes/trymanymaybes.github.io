@@ -6,7 +6,7 @@ globalThis.runTurtle = async function(source, turtleModule) {
   Sk.configure({
     __future__:Sk.python3,
     execLimit:4000,
-    yieldLimit:50,
+    yieldLimit:100000,
     output: text => { output = (output + text).slice(0,4000); },
     read: path => {
       if (['src/builtin/sys.py','src/lib/sys.py','sys.py'].includes(path)) return 'class _Output:\n    def write(self, text):\n        _mm_output(text)\n    def flush(self):\n        pass\nstdout = _Output()\nstderr = stdout\n';
@@ -24,10 +24,11 @@ globalThis.runTurtle = async function(source, turtleModule) {
     if (commands.length >= 12000) throw new Sk.builtin.RuntimeError('Drawing limit reached (12,000 commands).');
     const command = Sk.ffi.remapToJs(value);
     vertices += Array.isArray(command?.points) ? command.points.length : 1;
-    if (vertices > 50000) throw new Sk.builtin.RuntimeError('Drawing limit reached (50,000 points).');
+    if (vertices > 100000) throw new Sk.builtin.RuntimeError('Drawing limit reached (100,000 points).');
     commands.push(command);
     return Sk.builtin.none.none$;
   });
   await Sk.misceval.asyncToPromise(() => Sk.importMainWithBody('<playground>',false,source,true));
   return {commands,output};
 };
+

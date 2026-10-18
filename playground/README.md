@@ -16,7 +16,7 @@ Standalone `/playground/` endpoint in the static website. Challenge pages link d
 
 Vendored Skulpt 1.2.0 runs Python 3-style code in the browser; it is not CPython. No installation or runtime CDN dependency. Supports loops, functions, lists/classes, `import turtle`, `from turtle import *`, `Turtle()` instances, math and random. A minimal internal sys module supplies stdout/stderr only: interpreter controls, module access and host APIs are not exposed there.
 
-Supported turtle API is listed in the page and `turtle.py`. Coordinates start at the canvas centre, positive Y upward. Output appears after completion, rather than animating every stroke. `speed`, cursor visibility, `setup`, `title`, `tracer`, `update`, `mainloop`, `exitonclick`, `done` are no-ops for compatibility. Screen dimensions are controlled by the selected starter. Font family/style are ignored. Tk, event callbacks, arbitrary packages, filesystem/network access, `input()`, background changes, clear/reset/stamp/undo and other unlisted turtle features are unsupported. Fill borders use the pen state at `end_fill`.
+Supported turtle API is listed in the page and `turtle.py`. Coordinates start at the canvas centre, positive Y upward. Output appears after completion, rather than animating every stroke. `speed`, cursor visibility, `setup`, `title`, `tracer`, `update`, `mainloop`, `exitonclick`, `done` are no-ops for compatibility. Screen dimensions are controlled by the selected starter. Font family and bold/italic styles are supported. Tk, event callbacks, arbitrary packages, filesystem/network access, `input()`, clear/reset/stamp/undo and other unlisted turtle features are unsupported. Fill borders use the pen state at `end_fill`.
 
 The existing Challenge 01 `draw_starter(t)` function runs unchanged when passed this Turtle, verified in tests. Full production exporter scripts with svg_turtle, pathlib, CairoSVG or image export dependencies do not run here. The challenge starter already appears underneath user code; visitors do not need to redraw it.
 
@@ -29,7 +29,7 @@ The existing Challenge 01 `draw_starter(t)` function runs unchanged when passed 
 - Sandbox/worker CSP denies network, images, objects, child frames, forms and base changes. Blob workers inherit the creator CSP. Dynamic evaluation is allowed **only inside the isolated interpreter context**, because Skulpt compiles Python to JavaScript.
 - Interpreter read allowlist: our turtle module, math, random, and a minimal sys output shim. Host filesystem/browser bridges are not provided.
 - Only validated line/fill/dot/text data reaches the host renderer. No HTML, SVG, URLs, script or arbitrary canvas operations. Loaded projects use the same validation. Imported extras are discarded.
-- Run limits: 65,536 code characters (uploaded scripts also limited to 64 KiB); 12,000 commands; 50,000 drawing points; bounded coordinates/widths/text; 4,000 console characters. Skulpt time limit: 4 seconds. Independent iframe worker termination: 6 seconds. Host teardown: 8 seconds after initialization; Stop removes the execution frame.
+- Run limits: 65,536 code characters (uploaded scripts also limited to 64 KiB); 12,000 commands; 100,000 drawing points; bounded coordinates/widths/text; 4,000 console characters. Skulpt time limit: 4 seconds. Independent iframe worker termination: 6 seconds. Host teardown: 8 seconds after initialization; Stop removes the execution frame.
 - Runtime assets are fetched only on first Run and reused in memory. Stop during initial loading prevents execution, though the static asset request can finish in the background.
 - Project imports: 8 MiB file limit, 2,000 freehand strokes, 50,000 freehand points, strict schema and allowlisted challenge identifiers. No secrets, login integrations, storage, analytics or repository-writing APIs are bundled.
 
@@ -59,3 +59,12 @@ Browser checks cover:
 These are browser-engine tests with emulated device layouts, not physical Android/iPhone tests or branded Chrome/Edge/Safari certification. They do not prove a hard memory quota or absence of all browser/interpreter vulnerabilities. In-app browsers may differ. The workflow's latest green run and checked commit identify release evidence.
 
 Challenge links and QR distribution assets are integrated; browser drawing remains independent of production media generation. The playground is public and requires no login; future hosted gallery submissions and admin access remain separate.
+
+
+## Completed-scene compatibility
+
+Background colour (`bgcolor`, including Screen methods and RGB), world coordinate mapping and font family/bold/italic are supported. The last background and world bounds apply to the complete turtle layer; the background sits below the reference image and freehand marks. `setup` remains a no-op because the selected canvas controls output dimensions. Font availability depends on the device. Project v3 preserves the new drawing metadata; older projects remain readable.
+
+The completed-example picker loads standalone browser editions of the existing Challenge 1 park, underwater and desk scenes. Their drawing functions and original starter vertices are retained; filesystem/export imports are removed and shared drawing helpers are inlined. These are adaptations of many-maybes-challenges at commit 3644d9be6d5214828e5817173c6030f6df4bbf14. Examples use an 800-unit square world to fit the playground without stretching the original artwork.
+
+Circle segments are batched into one polyline, retaining their original vertices. Turtle geometry has a bounded 100,000-point budget; freehand retains its separate 50,000-point budget. Cooperative interpreter yields are disabled within the isolated worker (yield threshold exceeds execution timeout), avoiding premature partial scene completion; Stop and independent worker termination remain active.

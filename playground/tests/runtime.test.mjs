@@ -23,7 +23,7 @@ test('math and seeded random are supported',async()=>{
 test('original challenge drawing function runs unchanged with browser Turtle',async()=>{
  const source=fs.readFileSync(new URL('../../starter_turtle.py',import.meta.url),'utf8');
  const drawing=source.slice(source.indexOf('def draw_starter'),source.indexOf("if __name__"));
- const r=await run('import turtle\n'+drawing+'\ndraw_starter(turtle.Turtle())');assert.equal(r.commands.length,371);
+ const r=await run('import turtle\n'+drawing+'\ndraw_starter(turtle.Turtle())');assert.equal(r.commands.length,4);assert.equal(r.commands.reduce((n,c)=>n+c.points.length-1,0),371);
 });
 test('blocks filesystem, browser, network and arbitrary imports',async()=>{
  for(const code of ['import os','import js','import urllib','import document','import sys; sys.setExecutionLimit(999999)','import tkinter','import pathlib','open("/etc/passwd")','input("password")']){
@@ -45,3 +45,4 @@ test('infinite loop hits the interpreter time limit',async()=>{
 test('new executions do not share mutable interpreter state',async()=>{
  await run('import turtle\nturtle.forward(99)');const r=await run('import turtle\nturtle.forward(1)');assert.deepEqual(r.commands[0].points,[[0,0],[1,0]]);
 });
+

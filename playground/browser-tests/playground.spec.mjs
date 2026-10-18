@@ -145,3 +145,19 @@ test.describe('HTTPS challenge navigation',()=>{
  });
 
 });
+
+
+test('background, world mapping and font survive rendering and saved project',async({page})=>{
+ await open(page);await page.locator('#challenge').selectOption('blank');
+ await run(page,'import turtle as t\nt.bgcolor("#123456")\nt.setworldcoordinates(0,0,100,100)\nt.penup()\nt.goto(25,75)\nt.dot(20,"red")\nt.write("Title",font=("serif",24,"bold italic"))');
+ const pixel=async(x,y)=>page.locator('#drawing').evaluate((c,[x,y])=>Array.from(c.getContext('2d').getImageData(x,y,1,1).data),[x,y]);
+ expect(await pixel(0,0)).toEqual([18,52,86,255]);expect(await pixel(200,200)).toEqual([255,0,0,255]);
+ const original=await pixels(page);const event=page.waitForEvent('download');await page.locator('#save').click();const file=await event;const json=await fs.readFile(await file.path());
+ const data=JSON.parse(json);expect(data.drawing.find(c=>c.kind==='text')).toMatchObject({family:'serif',style:'bold italic'});
+ await page.locator('#clear-code').click();await page.locator('#file').setInputFiles({name:'scene.json',mimeType:'application/json',buffer:json});expect(await pixels(page)).toEqual(original);
+});
+for(const name of ['park','underwater','desk'])test('completed '+name+' loads and finishes',async({page},testInfo)=>{
+ await open(page);await page.locator('#completed-example').selectOption(name);await page.locator('#load-completed').click();await expect(page.locator('#code-status')).toContainText('Completed example loaded');
+ const code=await page.locator('#code').inputValue();await run(page,code+'\nprint("SCENE_COMPLETE")');await expect(page.locator('#console')).toHaveText('SCENE_COMPLETE\n');
+ await page.locator('#drawing').screenshot({path:testInfo.outputPath(name+'.png')});
+});

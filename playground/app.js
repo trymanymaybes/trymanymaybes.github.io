@@ -17,7 +17,7 @@ function stroke(context,s){
  context.save();context.globalCompositeOperation=s.tool==='eraser'?'destination-out':'source-over';context.strokeStyle=s.color;context.fillStyle=s.color;context.lineWidth=s.size;context.lineCap='round';context.lineJoin='round';
  context.beginPath();const [first,...rest]=s.points;context.moveTo(...first);for(const p of rest)context.lineTo(...p);context.stroke();if(!rest.length){context.beginPath();context.arc(...first,s.size/2,0,Math.PI*2);context.fill();}context.restore();
 }
-function render(){inkCtx.clearRect(0,0,ink.width,ink.height);for(const s of strokes)stroke(inkCtx,s);if(active)stroke(inkCtx,active);ctx.fillStyle='#ffffff';ctx.fillRect(0,0,canvas.width,canvas.height);if(base&&showStarter)ctx.drawImage(base,0,0,canvas.width,canvas.height);ctx.drawImage(turtleCanvas,0,0);ctx.drawImage(ink,0,0);$('undo').disabled=!strokes.length;$('redo').disabled=!redo.length;}
+function render(){inkCtx.clearRect(0,0,ink.width,ink.height);for(const s of strokes)stroke(inkCtx,s);if(active)stroke(inkCtx,active);ctx.fillStyle=turtleDrawing.findLast(c=>c.kind==='background')?.color||'#ffffff';ctx.fillRect(0,0,canvas.width,canvas.height);if(base&&showStarter)ctx.drawImage(base,0,0,canvas.width,canvas.height);ctx.drawImage(turtleCanvas,0,0);ctx.drawImage(ink,0,0);$('undo').disabled=!strokes.length;$('redo').disabled=!redo.length;}
 async function load(){
  const id=++loadId,c=challenges[key];$('submit-link').href='../submit.html?challenge='+encodeURIComponent(key);ready=false;base=null;$('download').disabled=true;canvas.width=ink.width=turtleCanvas.width=c.width;canvas.height=ink.height=turtleCanvas.height=c.height;paintTurtle();$('challenge').value=key;$('canvas-label').textContent=c.title;$('prompt').textContent=c.prompt;$('challenge-link').hidden=!c.page;if(c.page)$('challenge-link').href=c.page;render();status('Loading your starting point…');
  try{if(c.image){const img=new Image();await new Promise((resolve,reject)=>{img.onload=resolve;img.onerror=reject;img.src=c.image;});if(id!==loadId)return;base=img;}if(id!==loadId)return;ready=true;$('download').disabled=false;render();status('Your canvas is ready. Make your first mark.');}catch{if(id===loadId)status('Could not load the starter. Reload the page, or choose a blank canvas.');}
@@ -43,8 +43,10 @@ load();
 
 function paintTurtle(){
  turtleCtx.clearRect(0,0,turtleCanvas.width,turtleCanvas.height);
- const xy=p=>[p[0]+turtleCanvas.width/2,turtleCanvas.height/2-p[1]];
+ const bounds=turtleDrawing.findLast(c=>c.kind==='world')?.bounds;
+ const xy=p=>bounds?[(p[0]-bounds[0])*turtleCanvas.width/(bounds[2]-bounds[0]),(bounds[3]-p[1])*turtleCanvas.height/(bounds[3]-bounds[1])]:[p[0]+turtleCanvas.width/2,turtleCanvas.height/2-p[1]];
  for(const c of turtleDrawing){
+  if(c.kind==='background'||c.kind==='world')continue;
   turtleCtx.fillStyle='#233f36';turtleCtx.strokeStyle='#233f36';
   turtleCtx.fillStyle=c.color;turtleCtx.strokeStyle=c.color;
   if(c.kind==='line'||c.kind==='fill'){
@@ -52,7 +54,7 @@ function paintTurtle(){
    turtleCtx.lineWidth=c.width;turtleCtx.lineJoin='round';turtleCtx.lineCap='round';
    if(c.kind==='fill'){turtleCtx.closePath();turtleCtx.fill();}else turtleCtx.stroke();
   }else if(c.kind==='dot'){turtleCtx.beginPath();turtleCtx.arc(...xy([c.x,c.y]),c.size/2,0,Math.PI*2);turtleCtx.fill();}
-  else {turtleCtx.font=`${c.size}px sans-serif`;turtleCtx.textAlign=c.align;turtleCtx.fillText(c.text,...xy([c.x,c.y]));}
+  else {turtleCtx.font=`${c.style||"normal"} ${c.size}px "${c.family||"sans-serif"}"`;turtleCtx.textAlign=c.align;turtleCtx.fillText(c.text,...xy([c.x,c.y]));}
  }
 }
 function stopCode(){runSequence++;runner.stop();$('run').disabled=false;$('stop').disabled=true;$('code-status').textContent='Stopped. The previous turtle drawing is kept.';}
@@ -96,4 +98,20 @@ for(const [name,source] of Object.entries(examples))$('example-'+name).onclick=(
  const code=$('code').value+'\n'+source;
  if(code.length>MAX_CODE){$('code-status').textContent='The example would exceed the script size limit.';return;}
  stopCode();$('code').value=code;dirty=true;$('code-status').textContent='Example added at the end. Click Run to draw it.';$('code').focus();
+};
+
+
+$('load-completed').onclick=async()=>{
+ const name=$('completed-example').value;
+ if(!['park','underwater','desk'].includes(name))return;
+ if(dirty&&!confirm('Load a completed example? Save your project first to keep your current work.'))return;
+ try{
+  const response=await fetch(new URL('examples/'+name+'.py',import.meta.url));
+  if(!response.ok)throw new Error('Could not load the example.');
+  const source=await response.text();
+  if(source.length>MAX_CODE)throw new Error('Example is too large.');
+  stopCode();key='blank';showStarter=false;strokes=[];redo=[];points=0;turtleDrawing=[];
+  $('code').value=source;dirty=true;syncStarterMode();await load();
+  $('code-status').textContent='Completed example loaded. Click Run to draw it, then make it your own.';
+ }catch(error){$('code-status').textContent=error.message;}
 };

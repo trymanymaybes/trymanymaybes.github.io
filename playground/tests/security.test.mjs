@@ -10,7 +10,7 @@ test('drawing protocol strips extra fields and rejects active content',()=>{
  const c=line();assert.deepEqual(validateDrawing([{...c,script:'alert(1)',url:'https://example.com'}]),[c]);
  for(const patch of [{kind:'script'},{kind:'image'},{color:'url(https://example.com)'},{width:NaN},{width:101},{points:[[0,Infinity],[0,0]]},{points:[[0,-10001],[0,0]]}]) assert.throws(()=>validateDrawing([{...c,...patch}]));
  assert.throws(()=>validateDrawing(Array(MAX_COMMANDS+1).fill(c)));
- assert.throws(()=>validateDrawing([{...c,points:Array(50001).fill([0,0])}]));
+ assert.throws(()=>validateDrawing([{...c,points:Array(100001).fill([0,0])}]));
 });
 test('project v2 stores code as data and never executes on load',()=>{
  const data={format:'many-maybes-playground',version:2,challenge:'blank',strokes:[],code:'while True: pass',drawing:[line()]};
@@ -42,3 +42,4 @@ test('sandbox accepts only parent handshake and terminates after response',()=>{
  listener({source:parent,ports:[{postMessage:m=>response=m}],data:{worker:'trusted code',source:'print(1)'}});
  assert.equal(Worker.instance.source,'print(1)');Worker.instance.onmessage({data:{commands:[],output:'1'}});assert.equal(terminated,1);assert.equal(response.output,'1');
 });
+
