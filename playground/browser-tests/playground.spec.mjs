@@ -145,3 +145,57 @@ test.describe('HTTPS challenge navigation',()=>{
  });
 
 });
+
+
+test('background, world mapping and font survive rendering and saved project',async({page})=>{
+ await open(page);await page.locator('#challenge').selectOption('blank');
+ await run(page,'import turtle as t\nt.bgcolor("#123456")\nt.setworldcoordinates(0,0,100,100)\nt.penup()\nt.goto(25,75)\nt.dot(20,"red")\nt.write("Title",font=("serif",24,"bold italic"))');
+ const pixel=async(x,y)=>page.locator('#drawing').evaluate((c,[x,y])=>Array.from(c.getContext('2d').getImageData(x,y,1,1).data),[x,y]);
+ expect(await pixel(0,0)).toEqual([18,52,86,255]);expect(await pixel(200,200)).toEqual([255,0,0,255]);
+ const original=await pixels(page);const event=page.waitForEvent('download');await page.locator('#save').click();const file=await event;const json=await fs.readFile(await file.path());
+ const data=JSON.parse(json);expect(data.drawing.find(c=>c.kind==='text')).toMatchObject({family:'serif',style:'bold italic'});
+ await page.locator('#clear-code').click();await page.locator('#file').setInputFiles({name:'scene.json',mimeType:'application/json',buffer:json});expect(await pixels(page)).toEqual(original);
+});
+for(const name of ['park','underwater','desk'])test('completed '+name+' loads and finishes',async({page},testInfo)=>{
+ await open(page);await page.locator('#completed-example').selectOption(name);await page.locator('#load-completed').click();await expect(page.locator('#code-status')).toContainText('Completed example loaded');
+ const code=await page.locator('#code').inputValue();await run(page,code+'\nprint("SCENE_COMPLETE")');await expect(page.locator('#console')).toHaveText('SCENE_COMPLETE\n');
+ await page.locator('#drawing').screenshot({path:testInfo.outputPath(name+'.png')});
+});
+
+test('background remains visible behind image starter marks',async({page})=>{
+ await open(page);await run(page,'import turtle\nturtle.bgcolor("#123456")');
+ expect(await page.locator('#drawing').evaluate(c=>Array.from(c.getContext('2d').getImageData(0,0,1,1).data))).toEqual([18,52,86,255]);
+});
+
+for(const name of ['canyon','theatre','photograph'])test('Challenge 02 '+name+' full Python scene and protected gap',async({page},testInfo)=>{
+ await open(page);await page.locator('#challenge').selectOption('blank');
+ const source=await fs.readFile(new URL('../examples/02-'+name+'.py',import.meta.url),'utf8');
+ await run(page,source+'\nprint("SCENE_COMPLETE")');await expect(page.locator('#console')).toHaveText('SCENE_COMPLETE\n');
+ for(const [x,y] of [[400,200],[400,300],[400,400],[400,500]])expect(await page.locator('#drawing').evaluate((c,[x,y])=>Array.from(c.getContext('2d').getImageData(x,y,1,1).data),[x,y])).toEqual([250,247,239,255]);
+ await page.locator('#drawing').screenshot({path:testInfo.outputPath('02-'+name+'.png')});
+});
+import {artworkNames,artworkCommands} from '../tests/artwork-fixtures.mjs';
+for(const name of artworkNames)test('published '+name+' artwork renders and survives project export',async({page},testInfo)=>{
+ await open(page);
+ const source=await fs.readFile(new URL('../../challenge-'+name+'.svg',import.meta.url),'utf8');
+ const drawing=artworkCommands(source);const project={format:'many-maybes-playground',version:3,challenge:name.slice(0,2),showStarter:false,strokes:[],code:'',drawing};
+ await page.locator('#file').setInputFiles({name:'artwork.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(project))});await expect(page.locator('#code')).toHaveValue('');await expect(page.locator('#status')).toContainText('ready');
+ const before=await pixels(page);const event=page.waitForEvent('download');await page.locator('#save').click();const file=await event;
+ const saved=JSON.parse(await fs.readFile(await file.path(),'utf8'));expect(saved.drawing).toEqual(drawing);
+ await page.locator('#clear-code').click();await page.locator('#file').setInputFiles({name:'artwork.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(saved))});await expect(page.locator('#status')).toContainText('ready');// WebKit can vary two edge pixels by one channel level after repaint.
+ // Compare decoded pixels with a tiny explicit tolerance, not PNG byte strings.
+ const difference=await page.locator('#drawing').evaluate(async(c,png)=>{
+  const bytes=Uint8Array.from(atob(png.split(',')[1]),ch=>ch.charCodeAt(0));
+  const url=URL.createObjectURL(new Blob([bytes],{type:'image/png'}));
+  try{
+   const image=new Image();image.src=url;await image.decode();
+   const expected=document.createElement('canvas');expected.width=c.width;expected.height=c.height;expected.getContext('2d').drawImage(image,0,0);
+   const a=expected.getContext('2d').getImageData(0,0,c.width,c.height).data,b=c.getContext('2d').getImageData(0,0,c.width,c.height).data;
+   let changed=0,maxChannelDelta=0;
+   for(let i=0;i<a.length;i+=4){let delta=0;for(let j=0;j<4;j++)delta=Math.max(delta,Math.abs(a[i+j]-b[i+j]));if(delta)changed++;maxChannelDelta=Math.max(maxChannelDelta,delta);}
+   return {changed,maxChannelDelta};
+  }finally{URL.revokeObjectURL(url);}
+ },before);
+ expect(difference.maxChannelDelta).toBeLessThanOrEqual(1);expect(difference.changed).toBeLessThanOrEqual(4);
+ await page.locator('#drawing').screenshot({path:testInfo.outputPath(name+'.png')});
+});

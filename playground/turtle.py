@@ -135,9 +135,16 @@ class Turtle:
         cy = self._y + math.cos(angle)*radius
         vx, vy = self._x-cx,self._y-cy
         sweep = extent * (1 if radius >= 0 else -1)
+        points = [[self._x, self._y]]
+        was_down = self._down
+        self._down = False
         for i in range(1,steps+1):
             a = math.radians(sweep*i/steps)
             self.goto(cx+vx*math.cos(a)-vy*math.sin(a),cy+vx*math.sin(a)+vy*math.cos(a))
+            points.append([self._x, self._y])
+        self._down = was_down
+        if was_down:
+            _emit({"kind":"line","points":points,"color":self._pen,"width":self._width})
         self.left(sweep)
     def begin_fill(self):
         self._path = [[self._x,self._y]]
@@ -154,7 +161,7 @@ class Turtle:
     def write(self, arg, move=False, align='left', font=('sans-serif',12,'normal')):
         if move:
             raise NotImplementedError('write(move=True) is not supported.')
-        _emit({'kind':'text','x':self._x,'y':self._y,'size':font[1],'text':str(arg),'align':align,'color':self._pen})
+        _emit({'kind':'text','x':self._x,'y':self._y,'size':font[1],'text':str(arg),'align':align,'color':self._pen,'family':str(font[0]),'style':str(font[2])})
     def distance(self, x, y=None):
         if y is None:
             x,y = x.position() if isinstance(x,Turtle) else x
@@ -174,7 +181,19 @@ class Turtle:
     def getscreen(self):
         return Screen()
 
+_background = 'white'
 class Screen:
+    def bgcolor(self, *args):
+        global _background
+        if not args:
+            return _background
+        _background = _color(args)
+        _emit({'kind':'background','color':_background})
+    def setworldcoordinates(self, llx, lly, urx, ury):
+        bounds = [_number(v) for v in (llx, lly, urx, ury)]
+        if bounds[2] <= bounds[0] or bounds[3] <= bounds[1]:
+            raise ValueError('World coordinates must have positive width and height.')
+        _emit({'kind':'world','bounds':bounds})
     def setup(self, *args, **kwargs):
         pass
     def title(self, *args):
@@ -248,3 +267,7 @@ mainloop = _screen.mainloop
 exitonclick = _screen.exitonclick
 done = mainloop
 Pen = Turtle
+
+
+bgcolor = _screen.bgcolor
+setworldcoordinates = _screen.setworldcoordinates
