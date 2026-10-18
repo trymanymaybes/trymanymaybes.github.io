@@ -1,5 +1,21 @@
 import {test,expect} from '@playwright/test';
 import fs from 'node:fs/promises';
+
+const submissionGateway='https://many-maybes-submissions.trymanymaybes.workers.dev';
+const publishedChallenges=[...['01','02','03','04','05'].map(id=>({id,title:'Challenge '+id})),{id:'blank',title:'Free creation'}];
+// Exercise the enabled public UI without depending on, authenticating with,
+// or writing to production services. Context routes also cover new tabs.
+async function mockSubmissionServices(context,items=publishedChallenges){
+ await context.route(submissionGateway+'/**',route=>{
+  const url=new URL(route.request().url());
+  if(url.pathname==='/challenges'&&route.request().method()==='GET')
+   return route.fulfill({json:{items},headers:{'Access-Control-Allow-Origin':'*'}});
+  return route.abort('blockedbyclient');
+ });
+ await context.route('https://*.supabase.co/**',route=>route.abort('blockedbyclient'));
+ await context.route('https://challenges.cloudflare.com/**',route=>route.abort('blockedbyclient'));
+}
+
 async function open(page){page.on('dialog',d=>d.accept());await page.goto('/playground/');await expect(page.locator('#status')).toContainText('ready');}
 async function run(page,source){await page.locator('#code').fill(source);await page.locator('#run').click();await expect(page.locator('#code-status')).toContainText('Done',{timeout:15000});}
 const pixels=page=>page.locator('#drawing').evaluate(c=>c.toDataURL());
@@ -83,20 +99,25 @@ test.describe('HTTPS challenge navigation',()=>{
  await page.goto('/playground/?challenge=__proto__');await expect(page.locator('#challenge')).toHaveValue('01');
 });
 
- test('playground submission keeps challenge context and explains the available route',async({page,context})=>{
+ test('public submission keeps challenge context and requires sign-in before upload',async({page,context})=>{
+  await mockSubmissionServices(context);
   for(const id of ['01','02','03','04','05','blank']){
    await page.goto('https://127.0.0.1:4174/playground/?challenge='+id);
    await expect(page.locator('#status')).toContainText('ready');
    const popup=context.waitForEvent('page');await page.locator('#submit-link').click();const submission=await popup;
    await submission.waitForLoadState();
    await expect(submission.locator('#submission-challenge')).toContainText(id==='blank'?'Free creation':'Challenge '+id);
-   await expect(submission.locator('#submission-instructions')).toContainText('No website login is needed');
-   await expect(submission.locator('#direct-submissions')).toBeHidden();
+   await expect(submission.locator('#submission-instructions')).toContainText('sign in with Google');
+   await expect(submission.locator('#direct-submissions')).toBeVisible();
+   await expect(submission.locator('#google-signin')).toBeVisible();
+   await expect(submission.locator('#direct-send')).toBeDisabled();
    const png=await page.locator('#drawing').evaluate(c=>c.toDataURL().split(',')[1]);
    await submission.locator('#file').setInputFiles({name:'drawing.png',mimeType:'image/png',buffer:Buffer.from(png,'base64')});
    await submission.locator('#title').fill('My maybe');await submission.locator('#permission').check();
    await submission.getByRole('button',{name:'Prepare my submission',exact:true}).click();
    await expect(submission.locator('#prepared')).toBeVisible();
+   await submission.locator('#direct-adult').check();
+   await expect(submission.locator('#direct-send')).toBeDisabled();
    const href=decodeURIComponent(await submission.locator('#email-draft').getAttribute('href'));
    expect(href).toContain(id==='blank'?'Free creation':'Challenge '+id);
    await expect(page.locator('#challenge')).toHaveValue(id);
@@ -104,8 +125,8 @@ test.describe('HTTPS challenge navigation',()=>{
   }
  });
 
- test('submission catalogue accepts future IDs, preserves OAuth choice and resets prepared state',async({page})=>{
-  await page.route('**/submission-challenges.json',route=>route.fulfill({json:{items:[{id:'01',title:'Challenge 01'},{id:'future-99',title:'A new possibility'},{id:'blank',title:'Free creation'}]}}));
+ test('submission catalogue accepts future IDs, preserves OAuth choice and resets prepared state',async({page,context})=>{
+  await mockSubmissionServices(context,[{id:'01',title:'Challenge 01'},{id:'future-99',title:'A new possibility'},{id:'blank',title:'Free creation'}]);
   await page.goto('https://127.0.0.1:4174/submit.html?challenge=future-99');
   await expect(page.locator('#submission-challenge-select')).toHaveValue('future-99');
   await expect(page.locator('#submission-challenge')).toContainText('A new possibility');
