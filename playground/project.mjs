@@ -5,6 +5,7 @@ export const challenges = Object.freeze({
   '03': {title:'03 · How big is this, really?',image:'../challenge-03-starter.svg',width:800,height:800,prompt:'Imagine the same four circles at a different scale.',page:'../challenge-03.html'},
   '04': {title:'04 · What happened here?',image:'../challenge-04-starter.svg',width:800,height:800,prompt:'Add clues that suggest a story.',page:'../challenge-04.html'},
   '05': {title:'05 · What connects them?',image:'../challenge-05-starter.svg',width:800,height:800,prompt:'Imagine a connection between the original marks.',page:'../challenge-05.html'},
+  '06': {title:'06 · What is this made of?',image:'../challenge-06-starter.svg',width:800,height:800,prompt:'Keep all three lines visible. Suggest a material with two visual clues, without naming it.',page:'../challenge-06.html'},
   blank:{title:'Blank canvas · Anything goes',image:null,width:800,height:800,prompt:'No rules. See where your next line takes you.',page:null}
 });
 export const MAX_POINTS=50000, MAX_STROKES=2000, MAX_BYTES=8*1024*1024;
@@ -26,3 +27,4 @@ export function validateProject(data){
   if(data.version===3){if(typeof data.showStarter!=='boolean')fail();result.showStarter=data.showStarter;}
   return result;
 }
+
