@@ -1,0 +1,17 @@
+{
+  "brand": "Many Maybes",
+  "preferred_handle": "trymanymaybes",
+  "website": "https://trymanymaybes.github.io/",
+  "bio": "One start. Many possibilities. Free creative drawing challenges to explore beyond your first idea. Try on paper or in your browser.",
+  "status": "Prepared; Facebook and Pinterest accounts and posts are not yet published.",
+  "pinterest_boards": ["Creative Drawing Challenges", "Negative Space & Perspective", "Printable Creative Activities"],
+  "posts": [
+    {"challenge":"01","kind":"prompt","title":"What could four simple marks become?","description":"Two circles, an arc and a stroke. Keep every original mark, then imagine an object, a place and something happening. Draw your favourite interpretation. Rough sketches welcome. Try the free challenge or download its printable PDF.","image":"challenge-01-share.png","destination":"challenge-01.html"},
+    {"challenge":"01","kind":"example","title":"One starter, an underwater world","description":"These same starter marks can become an underwater scene. This is one illustrated possibility, not the correct answer. What else could you see? Try your own interpretation before exploring the gallery.","image":"underwater.png","destination":"challenge-01.html"},
+    {"challenge":"02","kind":"prompt","title":"A drawing challenge where the gap stays blank","description":"Keep the two shapes and leave the space between them completely blank. Add details outside the gap to change what it means. Explore three ideas, then develop one. Try this free negative-space drawing challenge.","image":"challenge-02-starter.png","destination":"challenge-02.html"},
+    {"challenge":"02","kind":"example","title":"Could an empty gap become a canyon?","description":"Surrounding details can change how you read untouched space. A canyon is one illustrated interpretation of this starter. Keep the central gap blank and discover another possibility of your own.","image":"challenge-02-canyon.png","destination":"challenge-02.html"},
+    {"challenge":"03","kind":"prompt","title":"Four circles: tiny, human-sized or enormous?","description":"Keep the four circles in place. Imagine something smaller than a fingernail, something human-sized and something larger than a building. Add clues to develop one idea. Free browser challenge and printable PDF.","image":"challenge-03-starter.png","destination":"challenge-03.html"},
+    {"challenge":"06","kind":"prompt","title":"Make three wavy lines feel soft, flowing or solid","description":"Imagine three materials these lines could suggest. Keep the original lines visible and add at least two visual clues to one idea, without naming the material inside the picture. Try the free challenge on paper or online.","image":"challenge-06-starter.png","destination":"challenge-06.html"}
+  ],
+  "publishing_notes": "Use the exact challenge landing page as each post destination. Check the connected brand before publishing. Prefer original media for Facebook reels and verify audio rights for that destination. Do not publish participant work on social media without separate permission. Account setup and website claiming require the account owner. No posts are scheduled by this file."
+}
