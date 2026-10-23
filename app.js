@@ -39,7 +39,7 @@ function validateDimensions(dim) {
 }
 function cleanText(s,max) {return String(s).normalize('NFC').replace(/[\u0000-\u001f\u007f\u202a-\u202e\u2066-\u2069]/g,' ').trim().slice(0,max);}
 function submissionText(title,name,reason,challengeLabel="01 - A few marks, many possibilities.") {
- return `Challenge: ${challengeLabel}\nTitle: ${cleanText(title,90)}\nPublic pseudonym: ${cleanText(name,40)||'Anonymous creator'}\nExplanation: ${cleanText(reason,800)||'(none)'}\n\nI am 18 or older. This is my work or I have permission to share it. I permit Many Maybes to publish the reviewed image, title, public pseudonym and explanation on its public gallery. My sender email must not be published.\n\nI have attached the prepared image and checked it for visible personal information.\n\nPlease reply with a gallery link if selected. I can reply to withdraw publication permission.`;
+ return `Challenge: ${challengeLabel}\nTitle: ${cleanText(title,90)}\nPublic pseudonym: ${cleanText(name,40)||'Anonymous creator'}\nExplanation: ${cleanText(reason,800)||'(none)'}\n\nI am 18 or older. This is my work or I have permission to share it. I permit Many Maybes to publish the reviewed image, title, public pseudonym and explanation on its public gallery. My sender email must not be published.\n\nI have checked my submission for personal information.\n\nPlease reply with a gallery link if selected. I can reply to withdraw publication permission.`;
 }
 if (typeof module !== 'undefined' && module.exports) module.exports={imageDimensions,validateDimensions,cleanText,submissionText};
 if (typeof document !== 'undefined') {
@@ -60,7 +60,10 @@ if (typeof document !== 'undefined') {
   let preparedBlob=null, preparedURL=null, message='', version=0;
   const prepared=document.querySelector('#prepared'), status=document.querySelector('#status'), preview=document.querySelector('#preview'), submitButton=form.querySelector('[type="submit"]');
   function reset(){document.dispatchEvent(new CustomEvent('mm-reset'));version++;preparedBlob=null;message='';prepared.hidden=true;document.querySelector('#email-draft').removeAttribute('href');preview.removeAttribute('src');if(preparedURL)URL.revokeObjectURL(preparedURL);preparedURL=null;status.textContent='';submitButton.disabled=false;}
-  form.addEventListener('input',reset);
+  const kind=document.querySelector('#submission-kind'), textInput=document.querySelector('#submission-text');
+  function syncKind(){if(!kind)return;const isText=kind.value==='text';document.querySelector('#image-fields').hidden=isText;document.querySelector('#text-fields').hidden=!isText;document.querySelector('#reason-field').hidden=isText;document.querySelector('#file').required=!isText;textInput.required=isText;document.querySelector('#text-count').textContent=textInput.value.length+' / 800 characters';}
+  form.addEventListener('input',()=>{reset();syncKind();});
+  kind?.addEventListener('change',()=>{reset();syncKind();});syncKind();
   window.addEventListener('pagehide',reset);
   if(window.self!==window.top){document.querySelector('#submission-panel').hidden=true;const p=document.createElement('p');p.textContent='Open the original Many Maybes submission page directly to prepare an image.';document.querySelector('main').append(p);}
   form.addEventListener('submit',async e=>{
@@ -69,12 +72,16 @@ if (typeof document !== 'undefined') {
    const context=document.querySelector('#submission-challenge-select')?window.MM_SUBMISSION_CONTEXT:{key:'01',label:'Challenge 01'};
    if(!context){status.textContent='Choose an open challenge before preparing your image.';return;}
    if(!form.reportValidity())return;
-   const file=document.querySelector('#file').files[0], title=cleanText(document.querySelector('#title').value,90), name=cleanText(document.querySelector('#name').value,40), reason=cleanText(document.querySelector('#reason').value,800);
+   const isText=kind?.value==='text';
+   const file=document.querySelector('#file').files[0], title=cleanText(document.querySelector('#title').value,90), name=cleanText(document.querySelector('#name').value,40), reason=isText?window.MM_TEXT_SUBMISSION.normalizeText(textInput.value).trim():cleanText(document.querySelector('#reason').value,800);
    if(!title){status.textContent='Please give your interpretation a title.';return;}
-   if(!file || !file.size || file.size>MAX_BYTES){status.textContent='Choose a JPEG or PNG up to 8 MB.';return;}
-   submitButton.disabled=true;status.textContent='Preparing your image locally…';
+   if(!isText && (!file || !file.size || file.size>MAX_BYTES)){status.textContent='Choose a JPEG or PNG up to 8 MB.';return;}
+   submitButton.disabled=true;status.textContent=isText?'Preparing your text card locally…':'Preparing your image locally…';
    let bitmap;
    try{
+    let blob;
+    if(isText){blob=await window.MM_TEXT_SUBMISSION.makeCard(reason);}
+    else{
     if(typeof createImageBitmap!=='function')throw Error('This browser cannot prepare images. Use a recent browser, or email a metadata-cleaned image with publication permission.');
     const dim=validateDimensions(imageDimensions(await file.arrayBuffer()));
     if(file.type && file.type!==dim.type)throw Error('The file type does not match its contents. Export a fresh JPEG or PNG.');
@@ -85,21 +92,23 @@ if (typeof document !== 'undefined') {
     const canvas=document.createElement('canvas');canvas.width=Math.max(1,Math.round(bitmap.width*scale));canvas.height=Math.max(1,Math.round(bitmap.height*scale));
     const ctx=canvas.getContext('2d',{alpha:false});if(!ctx)throw Error('Image preparation is unavailable.');
     ctx.fillStyle='#ffffff';ctx.fillRect(0,0,canvas.width,canvas.height);ctx.drawImage(bitmap,0,0,canvas.width,canvas.height);
-    const blob=await new Promise(resolve=>canvas.toBlob(resolve,'image/jpeg',.9));
+    blob=await new Promise(resolve=>canvas.toBlob(resolve,'image/jpeg',.9));
     canvas.width=1;canvas.height=1;
+    }
     if(attempt!==version)return;
     if(!blob)throw Error('Could not prepare this image. Try exporting a fresh JPEG.');
     preparedBlob=blob;preparedURL=URL.createObjectURL(blob);preview.src=preparedURL;
     document.querySelector('#preview-title').textContent=title;
     document.querySelector('#preview-credit').textContent=name||'Anonymous creator';
     document.querySelector('#preview-reason').textContent=reason;
-    message=submissionText(title,name,reason,context.label);document.dispatchEvent(new CustomEvent('mm-prepared',{detail:{blob,title,name,reason,challenge:context.key}}));
+    const formatNote=document.querySelector('#preview-format-note');if(formatNote)formatNote.textContent=isText?'Text submission: your words and this card will be sent for review.':'Image submission: your prepared image will be sent for review.';
+    message=isText?`Challenge: ${context.label}\nTitle: ${title}\nPublic pseudonym: ${name||'Anonymous creator'}\nText submission:\n${reason}`:submissionText(title,name,reason,context.label);document.dispatchEvent(new CustomEvent('mm-prepared',{detail:{blob,title,name,reason,challenge:context.key}}));
     document.querySelector('#email-draft').href=`mailto:${MM_EMAIL}?subject=${encodeURIComponent('Many Maybes - '+context.label+' submission')}&body=${encodeURIComponent(message)}`;
-    prepared.hidden=false;status.textContent='Prepared locally. Nothing has been sent. Download the image, then attach it to the email draft.';
+    prepared.hidden=false;status.textContent='Prepared locally. Nothing has been sent. Complete verification above, then choose Submit for review.';
    }catch(err){if(attempt===version)status.textContent=err instanceof Error?err.message:'Image preparation failed. Try a different JPEG or PNG.';}
    finally{bitmap?.close();if(attempt===version)submitButton.disabled=false;}
   });
-  document.querySelector('[data-action="download-prepared"]').addEventListener('click',()=>{if(!preparedBlob||!preparedURL)return;const a=document.createElement('a');a.href=preparedURL;a.download='many-maybes-'+(window.MM_SUBMISSION_CONTEXT?.key||'01')+'.jpg';a.click();toast('Attach the downloaded JPEG to your email draft.');});
+  document.querySelector('[data-action="download-prepared"]').addEventListener('click',()=>{if(!preparedBlob||!preparedURL)return;const a=document.createElement('a');a.href=preparedURL;a.download='many-maybes-'+(window.MM_SUBMISSION_CONTEXT?.key||'01')+'.jpg';a.click();toast('Prepared copy downloaded. To send it, choose Submit for review.');});
   document.querySelector('[data-action="copy-submission"]').addEventListener('click',()=>{if(message)copy(message);});
  }
 }

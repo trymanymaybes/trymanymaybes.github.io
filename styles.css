@@ -10,3 +10,5 @@ header nav,.footer-links{flex-wrap:wrap}header nav{justify-content:flex-end}foot
 
 #submission-challenge-select{font:inherit;width:100%;max-width:100%;display:block;background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:12px;margin-top:8px;color:var(--ink)}
 #submission-challenge-select:focus-visible{outline:3px solid #a64531;outline-offset:4px}
+
+#preview-reason{white-space:pre-wrap;overflow-wrap:anywhere} #submission-text{min-height:12rem} #text-fields[hidden],#image-fields[hidden],#reason-field[hidden]{display:none}

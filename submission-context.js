@@ -35,6 +35,6 @@
    selectChallenge();
   }catch{status.textContent='Could not load challenges. Reload this page to try again. Nothing has been sent.';}
  }
- if(window.MM_SUBMISSION_CONFIG?.enabled)document.getElementById('submission-instructions').textContent='Choose your challenge, then sign in with Google before selecting your image. Add a title and publication permission, prepare your image, complete verification and submit for private review. Keep your receipt to check its status. Up to three attempts per account per UTC day across all challenges.';
+ if(window.MM_SUBMISSION_CONFIG?.enabled)document.getElementById('submission-instructions').textContent='Choose your challenge, then sign in with Google. Choose Drawing / image or Idea / prompt / text. Add a title and publication permission, prepare your submission, complete verification and submit for private review. Keep your receipt to check its status. Up to three attempts per account per UTC day across all challenges.';
  load();
 })();
