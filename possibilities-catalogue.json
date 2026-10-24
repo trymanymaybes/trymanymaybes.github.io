@@ -1,0 +1,266 @@
+{
+  "version": 1,
+  "items": [
+    {
+      "id": "cultural-park",
+      "challengeId": "01",
+      "title": "A cultural park, seen from above",
+      "image": "cultural-park.svg",
+      "alt": "Change the viewpoint. Streets establish scale; tower terraces suggest height; seating and paths connect the theatre, pavilion and garden.",
+      "explanation": "Change the viewpoint. Streets establish scale; tower terraces suggest height; seating and paths connect the theatre, pavilion and garden.",
+      "page": "cultural-park.html",
+      "published": true
+    },
+    {
+      "id": "underwater",
+      "challengeId": "01",
+      "title": "Beneath the surface",
+      "image": "underwater.svg",
+      "alt": "Change material and context. Reflected light, circular forms, fish, kelp and the seabed suggest an underwater world without prescribing one story.",
+      "explanation": "Change material and context. Reflected light, circular forms, fish, kelp and the seabed suggest an underwater world without prescribing one story.",
+      "page": "underwater.html",
+      "published": true
+    },
+    {
+      "id": "artists-desk",
+      "challengeId": "01",
+      "title": "In the middle of making",
+      "image": "artists-desk.svg",
+      "alt": "Combine objects with traces. A cup, coffee reflections, shadows, wet residue and drawing materials suggest an inhabited desk and leave its story open.",
+      "explanation": "Combine objects with traces. A cup, coffee reflections, shadows, wet residue and drawing materials suggest an inhabited desk and leave its story open.",
+      "page": "artists-desk.html",
+      "published": true
+    },
+    {
+      "id": "challenge-02-canyon",
+      "challengeId": "02",
+      "title": "A route through the canyon",
+      "image": "challenge-02-canyon.png",
+      "alt": "Terraced rock edges, tiny houses, roads and approaching walkers turn the gap into a traversable landscape.",
+      "explanation": "Thinking shift: Change scale Convincing clues: Terraced rock edges, tiny houses, roads and approaching walkers turn the gap into a traversable landscape.",
+      "page": "gallery.html#challenge-02-canyon",
+      "published": true,
+      "details": [
+        "Thinking shift: Change scale",
+        "Convincing clues: Terraced rock edges, tiny houses, roads and approaching walkers turn the gap into a traversable landscape."
+      ]
+    },
+    {
+      "id": "challenge-02-theatre",
+      "challengeId": "02",
+      "title": "The light nobody drew",
+      "image": "challenge-02-theatre.png",
+      "alt": "A light source, curtain folds, a stool, microphone and audience make untouched paper read as illumination.",
+      "explanation": "Thinking shift: Change physical meaning Convincing clues: A light source, curtain folds, a stool, microphone and audience make untouched paper read as illumination.",
+      "page": "gallery.html#challenge-02-theatre",
+      "published": true,
+      "details": [
+        "Thinking shift: Change physical meaning",
+        "Convincing clues: A light source, curtain folds, a stool, microphone and audience make untouched paper read as illumination."
+      ]
+    },
+    {
+      "id": "challenge-02-photograph",
+      "challengeId": "02",
+      "title": "Someone was here",
+      "image": "challenge-02-photograph.png",
+      "alt": "A damaged print, conservatory plants and two surviving hands turn the missing middle into an open story.",
+      "explanation": "Thinking shift: Infer causes from absence Convincing clues: A damaged print, conservatory plants and two surviving hands turn the missing middle into an open story.",
+      "page": "gallery.html#challenge-02-photograph",
+      "published": true,
+      "details": [
+        "Thinking shift: Infer causes from absence",
+        "Convincing clues: A damaged print, conservatory plants and two surviving hands turn the missing middle into an open story."
+      ]
+    },
+    {
+      "id": "challenge-03-micro",
+      "challengeId": "03",
+      "title": "A drop with a whole world inside",
+      "image": "challenge-03-micro.png",
+      "alt": "A glass slide, translucent organisms, internal structures and a microscope scale bar suggest microscopic pond life. This is an illustration, not a biological identification.",
+      "explanation": "Thinking shift: Shrink the observer Convincing clues: A glass slide, translucent organisms, internal structures and a microscope scale bar suggest microscopic pond life. This is an illustration, not a biological identification.",
+      "page": "gallery.html#challenge-03-micro",
+      "published": true,
+      "details": [
+        "First assumption: The large circle is an everyday object.",
+        "Thinking shift: Shrink the observer",
+        "Convincing clues: A glass slide, translucent organisms, internal structures and a microscope scale bar suggest microscopic pond life. This is an illustration, not a biological identification.",
+        "Another direction: Try a cross-section of a fruit rather than pond water."
+      ]
+    },
+    {
+      "id": "challenge-03-lake",
+      "challengeId": "03",
+      "title": "An island park from above",
+      "image": "challenge-03-lake.png",
+      "alt": "Trees, footbridges, tiny people, buildings and boats establish a large circular lake with islands.",
+      "explanation": "Thinking shift: Turn marks into a mapped landscape Convincing clues: Trees, footbridges, tiny people, buildings and boats establish a large circular lake with islands.",
+      "page": "gallery.html#challenge-03-lake",
+      "published": true,
+      "details": [
+        "First assumption: The small circles are details on an object.",
+        "Thinking shift: Turn marks into a mapped landscape",
+        "Convincing clues: Trees, footbridges, tiny people, buildings and boats establish a large circular lake with islands.",
+        "Another direction: Make a crater research station or a flood-control basin."
+      ]
+    },
+    {
+      "id": "challenge-03-orbit",
+      "challengeId": "03",
+      "title": "A quiet shift above the clouds",
+      "image": "challenge-03-orbit.png",
+      "alt": "Bolted framing, handrails, control panels and a tethered mug make the outer circle a human-sized window; distant worlds lie beyond it.",
+      "explanation": "Thinking shift: Separate frame scale from subject distance Convincing clues: Bolted framing, handrails, control panels and a tethered mug make the outer circle a human-sized window; distant worlds lie beyond it.",
+      "page": "gallery.html#challenge-03-orbit",
+      "published": true,
+      "details": [
+        "First assumption: The outer circle contains the three smaller objects.",
+        "Thinking shift: Separate frame scale from subject distance",
+        "Convincing clues: Bolted framing, handrails, control panels and a tethered mug make the outer circle a human-sized window; distant worlds lie beyond it.",
+        "Another direction: Use a diving-bell window with fish at different distances."
+      ]
+    },
+    {
+      "id": "challenge-04-snail",
+      "challengeId": "04",
+      "title": "The visitor that left a silver path",
+      "image": "challenge-04-snail.png",
+      "alt": "A spiral shell, antennae, wet leaves and a silvery trail suggest a snail that has already crossed the paving.",
+      "explanation": "Thinking shift: Read a line as a leftover trace Convincing clues: A spiral shell, antennae, wet leaves and a silvery trail suggest a snail that has already crossed the paving.",
+      "page": "gallery.html#challenge-04-snail",
+      "published": true,
+      "details": [
+        "First assumption: The broken line is a route drawn on a map.",
+        "Thinking shift: Read a line as a leftover trace",
+        "Convincing clues: A spiral shell, antennae, wet leaves and a silvery trail suggest a snail that has already crossed the paving.",
+        "Another direction: Try tyre marks, a dragged toy or ripples behind a duck."
+      ]
+    },
+    {
+      "id": "challenge-04-cup",
+      "challengeId": "04",
+      "title": "A warm drink in a cooling room",
+      "image": "challenge-04-cup.png",
+      "alt": "A saucer, handle and coffee surface establish a stationary cup. Vapour fragments rise away from it, suggesting cooling over time.",
+      "explanation": "Thinking shift: Let the object stay and something escape Convincing clues: A saucer, handle and coffee surface establish a stationary cup. Vapour fragments rise away from it, suggesting cooling over time.",
+      "page": "gallery.html#challenge-04-cup",
+      "published": true,
+      "details": [
+        "First assumption: The circle must have travelled along the line.",
+        "Thinking shift: Let the object stay and something escape",
+        "Convincing clues: A saucer, handle and coffee surface establish a stationary cup. Vapour fragments rise away from it, suggesting cooling over time.",
+        "Another direction: Try scent leaving a flower or sparks from a forge."
+      ]
+    },
+    {
+      "id": "challenge-04-demolition",
+      "challengeId": "04",
+      "title": "The wall just before it gives way",
+      "image": "challenge-04-demolition.png",
+      "alt": "A crane cable, suspended ball, cracked brick wall and rubble turn the dashed arc into a motion cue and invite the next frame.",
+      "explanation": "Thinking shift: Use motion to anticipate the next moment Convincing clues: A crane cable, suspended ball, cracked brick wall and rubble turn the dashed arc into a motion cue and invite the next frame.",
+      "page": "gallery.html#challenge-04-demolition",
+      "published": true,
+      "details": [
+        "First assumption: The marks describe something that already happened.",
+        "Thinking shift: Use motion to anticipate the next moment",
+        "Convincing clues: A crane cable, suspended ball, cracked brick wall and rubble turn the dashed arc into a motion cue and invite the next frame.",
+        "Another direction: Try a pendulum clock, playground swing or a ball approaching a window."
+      ]
+    },
+    {
+      "id": "challenge-05-bridge",
+      "challengeId": "05",
+      "title": "Two rooftops, one shared garden",
+      "image": "challenge-05-bridge.png",
+      "alt": "Building floors establish rooftops. A railed bridge, people, planters and tables turn them into a shared place.",
+      "explanation": "Thinking shift: Connect places through shared use Convincing clues: Building floors establish rooftops. A railed bridge, people, planters and tables turn them into a shared place.",
+      "page": "gallery.html#challenge-05-bridge",
+      "published": true,
+      "details": [
+        "First assumption: The squares are separate, self-contained objects.",
+        "Thinking shift: Connect places through shared use",
+        "Convincing clues: Building floors establish rooftops. A railed bridge, people, planters and tables turn them into a shared place.",
+        "Another direction: Make the squares two riverbanks linked by a ferry."
+      ]
+    },
+    {
+      "id": "challenge-05-conversation",
+      "challengeId": "05",
+      "title": "A conversation across two rooms",
+      "image": "challenge-05-conversation.png",
+      "alt": "Two desks, headsets, screens with complementary puzzle pieces and two-way arrows suggest collaboration across rooms. The arrows are diagrammatic exchange cues.",
+      "explanation": "Thinking shift: Make the pair complementary Convincing clues: Two desks, headsets, screens with complementary puzzle pieces and two-way arrows suggest collaboration across rooms. The arrows are diagrammatic exchange cues.",
+      "page": "gallery.html#challenge-05-conversation",
+      "published": true,
+      "details": [
+        "First assumption: Similar squares must show the same thing.",
+        "Thinking shift: Make the pair complementary",
+        "Convincing clues: Two desks, headsets, screens with complementary puzzle pieces and two-way arrows suggest collaboration across rooms. The arrows are diagrammatic exchange cues.",
+        "Another direction: Try a sender and receiver, kitchen and dining room, or two musicians answering each other."
+      ]
+    },
+    {
+      "id": "challenge-05-studio",
+      "challengeId": "05",
+      "title": "A window and a way of seeing",
+      "image": "challenge-05-studio.png",
+      "alt": "One frame is a divided window onto mountains. The other is an easel-mounted painting with related colours and simplified forms; brushes and a palette establish interpretation.",
+      "explanation": "Thinking shift: Turn one into a representation of the other Convincing clues: One frame is a divided window onto mountains. The other is an easel-mounted painting with related colours and simplified forms; brushes and a palette establish interpretation.",
+      "page": "gallery.html#challenge-05-studio",
+      "published": true,
+      "details": [
+        "First assumption: Both squares are objects of the same kind.",
+        "Thinking shift: Turn one into a representation of the other",
+        "Convincing clues: One frame is a divided window onto mountains. The other is an easel-mounted painting with related colours and simplified forms; brushes and a palette establish interpretation.",
+        "Another direction: Try a real garden beside its map, or a building beside its blueprint."
+      ]
+    },
+    {
+      "id": "challenge-06-fabric",
+      "challengeId": "06",
+      "title": "Soft folds",
+      "image": "challenge-06-fabric.svg",
+      "alt": "A rail, hanging rings and a stitched hem turn curves into folds.",
+      "explanation": "Thinking shift: Same curves, different material. Convincing clues: A rail, hanging rings and a stitched hem turn curves into folds.",
+      "page": "gallery.html#challenge-06-fabric",
+      "published": true,
+      "details": [
+        "Thinking shift: Same curves, different material.",
+        "Convincing clues: A rail, hanging rings and a stitched hem turn curves into folds.",
+        "What remains if you remove the stitching?"
+      ]
+    },
+    {
+      "id": "challenge-06-water",
+      "challengeId": "06",
+      "title": "A surface that moves",
+      "image": "challenge-06-water.svg",
+      "alt": "Banks, a boat, ripples and a wake suggest flowing water.",
+      "explanation": "Thinking shift: Same curves, different material. Convincing clues: Banks, a boat, ripples and a wake suggest flowing water.",
+      "page": "gallery.html#challenge-06-water",
+      "published": true,
+      "details": [
+        "Thinking shift: Same curves, different material.",
+        "Convincing clues: Banks, a boat, ripples and a wake suggest flowing water.",
+        "Would colour alone convince you?"
+      ]
+    },
+    {
+      "id": "challenge-06-wood",
+      "challengeId": "06",
+      "title": "Grain with a history",
+      "image": "challenge-06-wood.svg",
+      "alt": "A cut surface, growth rings, a knot and roots suggest wood.",
+      "explanation": "Thinking shift: Same curves, different material. Convincing clues: A cut surface, growth rings, a knot and roots suggest wood.",
+      "page": "gallery.html#challenge-06-wood",
+      "published": true,
+      "details": [
+        "Thinking shift: Same curves, different material.",
+        "Convincing clues: A cut surface, growth rings, a knot and roots suggest wood.",
+        "Which clue still works if you change the colour?"
+      ]
+    }
+  ]
+}
