@@ -11,7 +11,7 @@ $('code').value=defaultCode;
 const requestedChallenge=new URLSearchParams(location.search).get('challenge');
 let key=Object.hasOwn(challenges,requestedChallenge)?requestedChallenge:'01', strokes=[],redo=[],active=null,tool='pen',base=null,transparentBase=null,ready=false,dirty=false,loadId=0,points=0;
 const status=message=>$('status').textContent=message;
-for(const [id,c] of Object.entries(challenges)){const o=document.createElement('option');o.value=id;o.textContent=c.title;$('challenge').append(o);}
+for(const [id,c] of Object.entries(challenges).sort(([a],[b])=>a.localeCompare(b))){const o=document.createElement('option');o.value=id;o.textContent=c.title;$('challenge').append(o);}
 $('challenge').value=key;
 function stroke(context,s){
  context.save();context.globalCompositeOperation=s.tool==='eraser'?'destination-out':'source-over';context.strokeStyle=s.color;context.fillStyle=s.color;context.lineWidth=s.size;context.lineCap='round';context.lineJoin='round';
@@ -19,7 +19,7 @@ function stroke(context,s){
 }
 function render(){inkCtx.clearRect(0,0,ink.width,ink.height);for(const s of strokes)stroke(inkCtx,s);if(active)stroke(inkCtx,active);ctx.fillStyle=turtleDrawing.findLast(c=>c.kind==='background')?.color||'#ffffff';ctx.fillRect(0,0,canvas.width,canvas.height);if(base&&showStarter)ctx.drawImage(turtleDrawing.some(c=>c.kind==='background')&&transparentBase?transparentBase:base,0,0,canvas.width,canvas.height);ctx.drawImage(turtleCanvas,0,0);ctx.drawImage(ink,0,0);$('undo').disabled=!strokes.length;$('redo').disabled=!redo.length;}
 async function load(){
- const id=++loadId,c=challenges[key];$('submit-link').href='../submit.html?challenge='+encodeURIComponent(key);ready=false;base=null;transparentBase=null;$('download').disabled=true;canvas.width=ink.width=turtleCanvas.width=c.width;canvas.height=ink.height=turtleCanvas.height=c.height;paintTurtle();$('challenge').value=key;$('canvas-label').textContent=c.title;$('prompt').textContent=c.prompt;$('challenge-link').hidden=!c.page;if(c.page)$('challenge-link').href=c.page;render();status('Loading your starting point…');
+ const id=++loadId,c=challenges[key];$('submit-link').href='../submit.html?challenge='+encodeURIComponent(key);ready=false;base=null;transparentBase=null;$('download').disabled=true;canvas.width=ink.width=turtleCanvas.width=c.width;canvas.height=ink.height=turtleCanvas.height=c.height;paintTurtle();$('challenge').value=key;$('canvas-label').textContent=c.title;$('prompt').textContent=c.prompt;canvas.setAttribute('aria-label',c.title+'. '+c.alt);$('starter-description').textContent=c.alt;$('challenge-link').hidden=!c.page;if(c.page)$('challenge-link').href=c.page;render();status('Loading your starting point…');
  try{if(c.image){const img=new Image();await new Promise((resolve,reject)=>{img.onload=resolve;img.onerror=reject;img.src=c.image;});if(id!==loadId)return;base=img;const marks=new Image();await new Promise((resolve,reject)=>{marks.onload=resolve;marks.onerror=reject;marks.src=new URL('reference-marks/'+key+'.svg',import.meta.url).href;});if(id!==loadId)return;transparentBase=marks;}if(id!==loadId)return;ready=true;$('download').disabled=false;render();status('Your canvas is ready. Make your first mark.');}catch{if(id===loadId)status('Could not load the starter. Reload the page, or choose a blank canvas.');}
 }
 function finish(){if(!active)return;strokes.push(active);points+=active.points.length;active=null;redo=[];dirty=true;render();}

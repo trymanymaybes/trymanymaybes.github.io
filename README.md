@@ -11,3 +11,9 @@ Do not add secrets, identity documents, participant emails, unreviewed submissio
 ## Protected submission integration
 
 The frontend integration is installed but disabled in submission-config.js until provider setup and live security checks are complete. Email remains the active pilot intake. Only public project URLs, publishable key and Turnstile site key belong in that config. Never add server-role keys or OAuth/Turnstile secrets. Backend source and activation checklist live in the private project repository. Enabling the frontend alone does not create an upload service.
+
+## Accessible challenge catalogue
+
+`challenge-catalogue.json` lists all ten challenges with stable IDs, plain-text descriptions, descriptive `alt` text, image paths, page paths, dimensions and reflection questions. Paths are relative to the website root. External narration clients can read descriptions and alt text directly without scraping HTML. This update does not modify external apps.
+
+The same text is exposed on each challenge page and in the playground. `scripts/build_submission_catalogue.py` refreshes submission options. `scripts/build_new_starters.py` reproducibly generates Challenges 07–10 SVG geometry and standalone Python starters; the matching scripts are bundled in `playground/starters.mjs`. Keep catalogue, page and playground metadata synchronized; browser checks verify them. Challenges 07–10 currently provide website instructions, SVG starters and playground support; example galleries, PDFs and social videos are separate deliverables.

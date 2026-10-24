@@ -2,7 +2,7 @@ import {test,expect} from '@playwright/test';
 import fs from 'node:fs/promises';
 
 const submissionGateway='https://many-maybes-submissions.trymanymaybes.workers.dev';
-const publishedChallenges=[...['01','02','03','04','05'].map(id=>({id,title:'Challenge '+id})),{id:'blank',title:'Free creation'}];
+const publishedChallenges=[...['01','02','03','04','05','06','07','08','09','10'].map(id=>({id,title:'Challenge '+id})),{id:'blank',title:'Free creation'}];
 // Exercise the enabled public UI without depending on, authenticating with,
 // or writing to production services. Context routes also cover new tabs.
 async function mockSubmissionServices(context,items=publishedChallenges){
@@ -93,7 +93,7 @@ test('canvas toolbar toggle, editable starter and help examples',async({page},te
 test.describe('HTTPS challenge navigation',()=>{
  test.use({ignoreHTTPSErrors:true}); // Local ephemeral certificate only; page CSP remains enforced.
  test('challenge links select the matching starter and reject unknown IDs',async({page})=>{
- for(const id of ['01','02','03','04','05']){
+ for(const id of ['01','02','03','04','05','06','07','08','09','10']){
   await page.goto('https://127.0.0.1:4174/challenge-'+id+'.html');await page.getByRole('link',{name:'Draw this challenge'}).click();await expect(page.locator('#status')).toContainText('ready');await expect(page.locator('#challenge')).toHaveValue(id);await expect(page.locator('#challenge-link')).toHaveAttribute('href','../challenge-'+id+'.html');
  }
  await page.goto('/playground/?challenge=__proto__');await expect(page.locator('#challenge')).toHaveValue('01');
@@ -101,7 +101,7 @@ test.describe('HTTPS challenge navigation',()=>{
 
  test('public submission keeps challenge context and requires sign-in before upload',async({page,context})=>{
   await mockSubmissionServices(context);
-  for(const id of ['01','02','03','04','05','blank']){
+  for(const id of ['01','02','03','04','05','06','07','08','09','10','blank']){
    await page.goto('https://127.0.0.1:4174/playground/?challenge='+id);
    await expect(page.locator('#status')).toContainText('ready');
    const popup=context.waitForEvent('page');await page.locator('#submit-link').click();const submission=await popup;

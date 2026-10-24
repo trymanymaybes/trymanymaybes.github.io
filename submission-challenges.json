@@ -2,27 +2,43 @@
   "items": [
     {
       "id": "01",
-      "title": "Challenge 01"
+      "title": "Challenge 01: A few marks, many possibilities"
     },
     {
       "id": "02",
-      "title": "Challenge 02"
+      "title": "Challenge 02: The gap does the work"
     },
     {
       "id": "03",
-      "title": "Challenge 03"
+      "title": "Challenge 03: How big is this, really?"
     },
     {
       "id": "04",
-      "title": "Challenge 04"
+      "title": "Challenge 04: What happened here?"
     },
     {
       "id": "05",
-      "title": "Challenge 05"
+      "title": "Challenge 05: What connects them?"
     },
     {
       "id": "06",
-      "title": "Challenge 06"
+      "title": "Challenge 06: What is this made of?"
+    },
+    {
+      "id": "07",
+      "title": "Challenge 07: Whose eyes are these?"
+    },
+    {
+      "id": "08",
+      "title": "Challenge 08: What else could it do?"
+    },
+    {
+      "id": "09",
+      "title": "Challenge 09: What’s missing?"
+    },
+    {
+      "id": "10",
+      "title": "Challenge 10: Can both be true?"
     },
     {
       "id": "blank",

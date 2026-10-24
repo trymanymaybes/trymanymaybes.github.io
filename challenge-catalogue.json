@@ -1,0 +1,125 @@
+{
+  "version": 1,
+  "items": [
+    {
+      "id": "01",
+      "title": "A few marks, many possibilities",
+      "description": "Turn two unequal circles, an open arc and a detached stroke into an unexpected object, place or event. Keep every original mark visible and preserve their relative positions; imagine three meanings and develop your favourite.",
+      "alt": "Four dark green marks: a larger circle at upper left, a smaller circle at lower right, an open curved arc below the larger circle, and a short diagonal stroke at upper right.",
+      "focus": "Context and viewpoint",
+      "reflection": "What assumption changed between your first and next interpretation?",
+      "image": "playground/reference-marks/01.svg",
+      "page": "challenge-01.html",
+      "width": 800,
+      "height": 600
+    },
+    {
+      "id": "02",
+      "title": "The gap does the work",
+      "description": "Keep the two filled shapes in place and leave the central gap completely blank. Add clues on the shapes or outside the gap so the untouched space becomes the most important part of your picture.",
+      "alt": "Two solid dark green shapes face each other. Their inner edges form a blank central gap that is narrow at the top and widens towards the bottom.",
+      "focus": "Negative space",
+      "reflection": "What did the surroundings make you see in the blank gap?",
+      "image": "playground/reference-marks/02.svg",
+      "page": "challenge-02.html",
+      "width": 800,
+      "height": 800
+    },
+    {
+      "id": "03",
+      "title": "How big is this, really?",
+      "description": "Keep the large circle and the three smaller circles inside it. Imagine a scene smaller than a fingernail, human-sized, or larger than a building; develop one using details that establish its scale.",
+      "alt": "A large dark green circular outline encloses three smaller circles: one at upper left, the smallest at upper right, and the largest of the inner circles below the centre.",
+      "focus": "Scale",
+      "reflection": "Which detail establishes the scale? What happens if you remove it?",
+      "image": "playground/reference-marks/03.svg",
+      "page": "challenge-03.html",
+      "width": 800,
+      "height": 800
+    },
+    {
+      "id": "04",
+      "title": "What happened here?",
+      "description": "Keep the circle and five detached strokes. Add at least two visual clues that suggest what happened before this moment or what could happen next.",
+      "alt": "A dark green circle sits below and to the right of centre. Five separate short strokes form a diagonal trail from the upper left towards the circle, stopping before its edge.",
+      "focus": "Time and storytelling",
+      "reflection": "Which clues suggest a past or future event?",
+      "image": "playground/reference-marks/04.svg",
+      "page": "challenge-04.html",
+      "width": 800,
+      "height": 800
+    },
+    {
+      "id": "05",
+      "title": "What connects them?",
+      "description": "Keep both equal squares and their relative positions. Add at least two clues that reveal a relationship such as support, exchange, cause or comparison.",
+      "alt": "Two equal dark green square outlines sit side by side at the same height, separated by a wide blank space.",
+      "focus": "Relationships",
+      "reflection": "How would changing only the connection change the story?",
+      "image": "playground/reference-marks/05.svg",
+      "page": "challenge-05.html",
+      "width": 800,
+      "height": 800
+    },
+    {
+      "id": "06",
+      "title": "What is this made of?",
+      "description": "Keep the three wavy lines visible and in place. Imagine three materials, then suggest one with at least two visual clues without writing its name inside the picture.",
+      "alt": "Three equally spaced dark green wavy lines run vertically side by side. They have the same length and repeat the same bends.",
+      "focus": "Materials",
+      "reflection": "Which clue changes how the lines feel?",
+      "image": "playground/reference-marks/06.svg",
+      "page": "challenge-06.html",
+      "width": 800,
+      "height": 800
+    },
+    {
+      "id": "07",
+      "title": "Whose eyes are these?",
+      "description": "Keep the rectangle and two short parallel lines. Imagine the scene through an unusual observer’s eyes, then add clues that show where the observer is and what they can see.",
+      "alt": "A wide rectangular outline sits above the centre. Two separate short horizontal lines, one above the other, sit below it, slightly to the right.",
+      "focus": "Observer perspective",
+      "reflection": "Where is your observer, and what can they see that someone else cannot?",
+      "image": "playground/reference-marks/07.svg",
+      "page": "challenge-07.html",
+      "width": 800,
+      "height": 800
+    },
+    {
+      "id": "08",
+      "title": "What else could it do?",
+      "description": "Keep the spoon outline intact. Give it an unexpected job and add a setting that shows how it works; its new purpose must be something other than eating or serving food.",
+      "alt": "A vertical spoon outline: an oval bowl at the top narrows into a long slim handle with a rounded bottom. The interior is blank.",
+      "focus": "Unexpected function",
+      "reflection": "Which property of the spoon makes its new job possible?",
+      "image": "playground/reference-marks/08.svg",
+      "page": "challenge-08.html",
+      "width": 800,
+      "height": 800
+    },
+    {
+      "id": "09",
+      "title": "What’s missing?",
+      "description": "Keep the three incomplete outlines and their gaps. Add surrounding clues that suggest something absent or hidden, without drawing the missing thing or completing the outlines.",
+      "alt": "Three incomplete outlines sit side by side: a circle open on its right, a square missing part of its top edge, and a triangle with a gap in its lower edge.",
+      "focus": "Inference from absence",
+      "reflection": "Which clue suggests the missing thing? Could another explanation fit?",
+      "image": "playground/reference-marks/09.svg",
+      "page": "challenge-09.html",
+      "width": 800,
+      "height": 800
+    },
+    {
+      "id": "10",
+      "title": "Can both be true?",
+      "description": "Use the same circle, rectangle and short line in two separate pictures. Add different surroundings so the two versions support opposite readings, such as welcome and unwelcome, or help and obstacle.",
+      "alt": "A circle at upper left, a tall rectangle at right, and a short horizontal line below the circle. All three marks are separate.",
+      "focus": "Opposite interpretations",
+      "reflection": "Which added detail changes the interpretation most? What stays the same?",
+      "image": "playground/reference-marks/10.svg",
+      "page": "challenge-10.html",
+      "width": 800,
+      "height": 800
+    }
+  ]
+}
