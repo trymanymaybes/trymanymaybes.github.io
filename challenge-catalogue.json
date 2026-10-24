@@ -11,7 +11,8 @@
       "image": "playground/reference-marks/01.svg",
       "page": "challenge-01.html",
       "width": 800,
-      "height": 600
+      "height": 600,
+      "printable": "challenge-01.pdf"
     },
     {
       "id": "02",
@@ -23,7 +24,8 @@
       "image": "playground/reference-marks/02.svg",
       "page": "challenge-02.html",
       "width": 800,
-      "height": 800
+      "height": 800,
+      "printable": "challenge-02.pdf"
     },
     {
       "id": "03",
@@ -35,7 +37,8 @@
       "image": "playground/reference-marks/03.svg",
       "page": "challenge-03.html",
       "width": 800,
-      "height": 800
+      "height": 800,
+      "printable": "challenge-03.pdf"
     },
     {
       "id": "04",
@@ -47,7 +50,8 @@
       "image": "playground/reference-marks/04.svg",
       "page": "challenge-04.html",
       "width": 800,
-      "height": 800
+      "height": 800,
+      "printable": "challenge-04.pdf"
     },
     {
       "id": "05",
@@ -59,7 +63,8 @@
       "image": "playground/reference-marks/05.svg",
       "page": "challenge-05.html",
       "width": 800,
-      "height": 800
+      "height": 800,
+      "printable": "challenge-05.pdf"
     },
     {
       "id": "06",
@@ -71,7 +76,8 @@
       "image": "playground/reference-marks/06.svg",
       "page": "challenge-06.html",
       "width": 800,
-      "height": 800
+      "height": 800,
+      "printable": "challenge-06.pdf"
     },
     {
       "id": "07",
@@ -83,7 +89,8 @@
       "image": "playground/reference-marks/07.svg",
       "page": "challenge-07.html",
       "width": 800,
-      "height": 800
+      "height": 800,
+      "printable": "challenge-07.pdf"
     },
     {
       "id": "08",
@@ -95,7 +102,8 @@
       "image": "playground/reference-marks/08.svg",
       "page": "challenge-08.html",
       "width": 800,
-      "height": 800
+      "height": 800,
+      "printable": "challenge-08.pdf"
     },
     {
       "id": "09",
@@ -107,7 +115,8 @@
       "image": "playground/reference-marks/09.svg",
       "page": "challenge-09.html",
       "width": 800,
-      "height": 800
+      "height": 800,
+      "printable": "challenge-09.pdf"
     },
     {
       "id": "10",
@@ -119,7 +128,8 @@
       "image": "playground/reference-marks/10.svg",
       "page": "challenge-10.html",
       "width": 800,
-      "height": 800
+      "height": 800,
+      "printable": "challenge-10.pdf"
     }
   ]
 }

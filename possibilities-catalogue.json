@@ -261,6 +261,174 @@
         "Convincing clues: A cut surface, growth rings, a knot and roots suggest wood.",
         "Which clue still works if you change the colour?"
       ]
+    },
+    {
+      "id": "challenge-07-cat",
+      "challengeId": "07",
+      "title": "A cat beneath the table",
+      "image": "challenge-07-cat.svg",
+      "alt": "From floor level, a window frames a bird. The two short starter lines form the upper edges of two stacked books; table legs and cat ears frame the view.",
+      "explanation": "Lower the observer to cat height. Table legs hide part of the room, while the bird outside becomes the centre of attention.",
+      "page": "gallery.html#challenge-07-cat",
+      "published": true,
+      "details": [
+        "Thinking shift: Lower the observer to cat height. Table legs hide part of the room, while the bird outside becomes the centre of attention.",
+        "Reflect: Where is your observer, and what can they see that someone else cannot?"
+      ]
+    },
+    {
+      "id": "challenge-07-diver",
+      "challengeId": "07",
+      "title": "Looking out from underwater",
+      "image": "challenge-07-diver.svg",
+      "alt": "A submerged observer sees a rectangular viewing window with fish beyond it. The two starter lines become the tops of ladder rungs, with rails extending down through bubbles.",
+      "explanation": "Put the observer underwater. Bubbles and fish establish the medium; the ladder suggests a route to the surface.",
+      "page": "gallery.html#challenge-07-diver",
+      "published": true,
+      "details": [
+        "Thinking shift: Put the observer underwater. Bubbles and fish establish the medium; the ladder suggests a route to the surface.",
+        "Reflect: Where is your observer, and what can they see that someone else cannot?"
+      ]
+    },
+    {
+      "id": "challenge-07-robot",
+      "challengeId": "07",
+      "title": "A small robot approaches a charging dock",
+      "image": "challenge-07-robot.svg",
+      "alt": "A robot camera view frames a rectangular charging panel. The two starter lines become charging contacts below it. Floor perspective lines lead towards the dock; battery and scan indicators frame the view.",
+      "explanation": "Use a machine as the observer. A battery indicator and alignment guides make the same room a navigation task.",
+      "page": "gallery.html#challenge-07-robot",
+      "published": true,
+      "details": [
+        "Thinking shift: Use a machine as the observer. A battery indicator and alignment guides make the same room a navigation task.",
+        "Reflect: Where is your observer, and what can they see that someone else cannot?"
+      ]
+    },
+    {
+      "id": "challenge-08-rain",
+      "challengeId": "08",
+      "title": "A tiny rain gauge",
+      "image": "challenge-08-rain.svg",
+      "alt": "An upright spoon catches falling raindrops. Measuring marks cross its bowl, and its handle is planted in a flower bed beside small seedlings.",
+      "explanation": "A hollow bowl can collect rain. The planted handle anchors it, while level marks turn a utensil into a measuring instrument.",
+      "page": "gallery.html#challenge-08-rain",
+      "published": true,
+      "details": [
+        "Thinking shift: A hollow bowl can collect rain. The planted handle anchors it, while level marks turn a utensil into a measuring instrument.",
+        "Reflect: Which property of the spoon makes its new job possible?"
+      ]
+    },
+    {
+      "id": "challenge-08-signal",
+      "challengeId": "08",
+      "title": "A reflector for a lost traveller",
+      "image": "challenge-08-signal.svg",
+      "alt": "Sun rays strike the spoon bowl and reflect towards a distant rescue boat. A hand holds the long handle; hills and a waterline establish the outdoor setting.",
+      "explanation": "A shiny surface can redirect light. Rays, a holding hand and a distant boat suggest signalling instead of eating.",
+      "page": "gallery.html#challenge-08-signal",
+      "published": true,
+      "details": [
+        "Thinking shift: A shiny surface can redirect light. Rays, a holding hand and a distant boat suggest signalling instead of eating.",
+        "Reflect: Which property of the spoon makes its new job possible?"
+      ]
+    },
+    {
+      "id": "challenge-08-bell",
+      "challengeId": "08",
+      "title": "A wind chime striker",
+      "image": "challenge-08-bell.svg",
+      "alt": "A spoon hangs from a string between two suspended hollow tubes. Curved motion marks indicate that its bowl swings against the tubes; a breeze moves leaves nearby.",
+      "explanation": "A hard surface can make sound. Suspension, nearby tubes and motion marks suggest a wind chime striker.",
+      "page": "gallery.html#challenge-08-bell",
+      "published": true,
+      "details": [
+        "Thinking shift: A hard surface can make sound. Suspension, nearby tubes and motion marks suggest a wind chime striker.",
+        "Reflect: Which property of the spoon makes its new job possible?"
+      ]
+    },
+    {
+      "id": "challenge-09-museum",
+      "challengeId": "09",
+      "title": "Three empty places in a museum",
+      "image": "challenge-09-museum.svg",
+      "alt": "Three incomplete outlines sit on a museum display wall above empty label plates. A spotlight, a fallen hanging cord and a trail of footprints suggest that exhibits have been removed. No missing exhibit is drawn.",
+      "explanation": "Absence can tell a story. Empty labels and footprints suggest removal, but do not prove whether this was a theft, a loan or a new exhibition.",
+      "page": "gallery.html#challenge-09-museum",
+      "published": true,
+      "details": [
+        "Thinking shift: Absence can tell a story. Empty labels and footprints suggest removal, but do not prove whether this was a theft, a loan or a new exhibition.",
+        "Reflect: Which clue suggests the missing thing? Could another explanation fit?"
+      ]
+    },
+    {
+      "id": "challenge-09-workshop",
+      "challengeId": "09",
+      "title": "The tools have gone",
+      "image": "challenge-09-workshop.svg",
+      "alt": "Three incomplete outlines are surrounded by pegs on a workshop board. An open toolbox and dusty marks below the board suggest that objects once stored here are elsewhere. The gaps remain blank.",
+      "explanation": "A storage outline is evidence of an absent object. Pegs and an open toolbox suggest use or relocation without showing the missing tools.",
+      "page": "gallery.html#challenge-09-workshop",
+      "published": true,
+      "details": [
+        "Thinking shift: A storage outline is evidence of an absent object. Pegs and an open toolbox suggest use or relocation without showing the missing tools.",
+        "Reflect: Which clue suggests the missing thing? Could another explanation fit?"
+      ]
+    },
+    {
+      "id": "challenge-09-dig",
+      "challengeId": "09",
+      "title": "Traces at a dig",
+      "image": "challenge-09-dig.svg",
+      "alt": "The three incomplete outlines lie within a marked excavation grid. A brush, numbered marker flags and scattered grains surround them; the missing parts are not filled in.",
+      "explanation": "Treat the outlines as traces in the ground. Survey markers and a brush invite reconstruction, while several explanations remain possible.",
+      "page": "gallery.html#challenge-09-dig",
+      "published": true,
+      "details": [
+        "Thinking shift: Treat the outlines as traces in the ground. Survey markers and a brush invite reconstruction, while several explanations remain possible.",
+        "Reflect: Which clue suggests the missing thing? Could another explanation fit?"
+      ]
+    },
+    {
+      "id": "challenge-10-door",
+      "challengeId": "10",
+      "title": "Welcome / Keep out",
+      "image": "challenge-10-door.svg",
+      "alt": "Two panels repeat the same circle, tall rectangle and short line. In the left panel a smiling face, door handle, flowers and welcome mat invite entry. In the right, an angry face, door bars and warning sign discourage entry.",
+      "explanation": "The unchanged shapes become a face, a door and a mat. Expression and access cues reverse the invitation.",
+      "page": "gallery.html#challenge-10-door",
+      "published": true,
+      "details": [
+        "Thinking shift: The unchanged shapes become a face, a door and a mat. Expression and access cues reverse the invitation.",
+        "Reflect: Which added detail changes the interpretation most? What stays the same?"
+      ]
+    },
+    {
+      "id": "challenge-10-shade",
+      "challengeId": "10",
+      "title": "Shelter / Obstruction",
+      "image": "challenge-10-shade.svg",
+      "alt": "The same circle becomes the sun and the same rectangle a wall in two panels. On the left a seated person rests in the wall’s shaded area. On the right a walking person faces the wall blocking the route to a flag.",
+      "explanation": "The wall can protect or obstruct. Heat and a resting figure make shade helpful; a destination beyond the wall makes it a barrier.",
+      "page": "gallery.html#challenge-10-shade",
+      "published": true,
+      "details": [
+        "Thinking shift: The wall can protect or obstruct. Heat and a resting figure make shade helpful; a destination beyond the wall makes it a barrier.",
+        "Reflect: Which added detail changes the interpretation most? What stays the same?"
+      ]
+    },
+    {
+      "id": "challenge-10-weather",
+      "challengeId": "10",
+      "title": "A welcome rain / A ruined picnic",
+      "image": "challenge-10-weather.svg",
+      "alt": "The same circle, rectangle and short line repeat in two scenes. Rain, seedlings and a water tank suggest relief for a dry garden on the left. Rain, a wet picnic table and a person seeking cover suggest disrupted plans on the right.",
+      "explanation": "The weather is identical, but the goal changes. Rain helps the garden and spoils an outdoor meal; both readings can be true.",
+      "page": "gallery.html#challenge-10-weather",
+      "published": true,
+      "details": [
+        "Thinking shift: The weather is identical, but the goal changes. Rain helps the garden and spoils an outdoor meal; both readings can be true.",
+        "Reflect: Which added detail changes the interpretation most? What stays the same?"
+      ]
     }
   ]
 }
