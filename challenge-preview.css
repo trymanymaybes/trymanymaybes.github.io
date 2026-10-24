@@ -1,0 +1,24 @@
+.challenge-preview{max-width:900px;margin:28px auto 44px}
+.challenge-preview-stage{display:grid;grid-template-columns:48px minmax(0,1fr) 48px;gap:16px;align-items:center}
+#challenge-slides{min-width:0;grid-column:2;grid-row:1}
+.preview-arrow{width:48px;height:48px;border-radius:50%;border:1px solid var(--ink);background:var(--paper);color:var(--ink);font-size:25px;grid-row:1}
+#preview-previous{grid-column:1}#preview-next{grid-column:3}
+.preview-arrow:hover{background:var(--green)}
+.challenge-slide{padding-bottom:16px}
+.challenge-preview-image{display:flex;align-items:center;justify-content:center;background:var(--white);border:1px solid var(--line);border-radius:18px;margin-bottom:24px;overflow:hidden}
+.challenge-preview-image img{display:block;width:100%;height:clamp(240px,42vh,420px);object-fit:contain;padding:18px}
+.challenge-slide h2{font-size:clamp(25px,4vw,38px);margin-bottom:14px}
+.challenge-slide h2 a{text-decoration:none}
+.challenge-slide h2 a:hover{text-decoration:underline}
+.challenge-slide>p:not(.eyebrow){color:var(--muted)}
+.challenge-slide .eyebrow{margin-bottom:10px}
+.preview-controls{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:20px;margin:0 64px}
+#preview-status{margin:0;font-size:14px;font-weight:650}
+#preview-jump{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:14px}
+#preview-number{width:72px;min-height:44px;padding:8px;border:1px solid var(--ink);border-radius:6px;background:var(--white);color:var(--ink)}
+.challenge-preview:focus-visible{outline:3px solid #a64531;outline-offset:5px}
+.challenge-list{margin-bottom:48px;border-top:1px solid var(--line);padding-top:24px}
+.challenge-list>summary{cursor:pointer;font-weight:650}
+.challenge-list section{margin:28px 0}
+@media(max-width:600px){.challenge-preview-stage{grid-template-columns:44px minmax(0,1fr) 44px;gap:6px}.preview-arrow{width:44px;height:44px}.challenge-preview-image img{height:260px;padding:8px}.preview-controls{margin:0;gap:12px}.challenge-slide h2{font-size:27px}.challenge-slide .eyebrow{font-size:10px}.challenge-preview-stage .btn{padding:10px 14px}.challenge-preview-image{border-radius:12px}}
+@media print{.preview-arrow,.preview-controls{display:none!important}.challenge-preview-stage{display:block}}
