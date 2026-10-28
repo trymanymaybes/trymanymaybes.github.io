@@ -429,6 +429,48 @@
         "Thinking shift: The weather is identical, but the goal changes. Rain helps the garden and spoils an outdoor meal; both readings can be true.",
         "Reflect: Which added detail changes the interpretation most? What stays the same?"
       ]
+    },
+    {
+      "id": "challenge-11-windows",
+      "challengeId": "11",
+      "title": "Windows with a view",
+      "image": "challenge-11-windows.svg",
+      "alt": "Three green arches become tall windows in a warm stone wall, with crossing window bars and planted window boxes.",
+      "explanation": "Vertical sides, crossbars and window boxes make the arches read as windows.",
+      "page": "gallery.html#challenge-11-windows",
+      "published": true,
+      "details": [
+        "Thinking shift: Vertical sides, crossbars and window boxes make the arches read as windows.",
+        "Reflect: What other role could these arches play?"
+      ]
+    },
+    {
+      "id": "challenge-11-mushrooms",
+      "challengeId": "11",
+      "title": "A tiny forest",
+      "image": "challenge-11-mushrooms.svg",
+      "alt": "Three green arches become mushroom caps above slender stems, with spots, gills and grass.",
+      "explanation": "A flat cap edge, stem and small spots make the arches read as mushrooms.",
+      "page": "gallery.html#challenge-11-mushrooms",
+      "published": true,
+      "details": [
+        "Thinking shift: A flat cap edge, stem and small spots make the arches read as mushrooms.",
+        "Reflect: What other role could these arches play?"
+      ]
+    },
+    {
+      "id": "challenge-11-bridges",
+      "challengeId": "11",
+      "title": "A way across",
+      "image": "challenge-11-bridges.svg",
+      "alt": "Three green arches form bridge openings below a continuous walkway and railing, with water ripples below and a person above.",
+      "explanation": "A shared walkway, supporting piers and water connect the arches into a bridge.",
+      "page": "gallery.html#challenge-11-bridges",
+      "published": true,
+      "details": [
+        "Thinking shift: A shared walkway, supporting piers and water connect the arches into a bridge.",
+        "Reflect: What other role could these arches play?"
+      ]
     }
   ]
 }

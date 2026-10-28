@@ -98,6 +98,15 @@ export const challenges = Object.freeze({
     "prompt": "No rules. See where your next line takes you.",
     "alt": "Blank drawing canvas.",
     "page": null
+  },
+  "11": {
+    "title": "11 · Was that always there?",
+    "image": "../playground/reference-marks/11.svg",
+    "width": 800,
+    "height": 800,
+    "prompt": "Look once, note what stands out, then look again with a new cue. Afterwards, turn the same three arches into three different possibilities while keeping every original mark visible.",
+    "alt": "Three equal dark green semicircular arches sit side by side at the same height, open at the bottom.",
+    "page": "../challenge-11.html"
   }
 });
 export const MAX_POINTS=50000, MAX_STROKES=2000, MAX_BYTES=8*1024*1024;

@@ -130,6 +130,19 @@
       "width": 800,
       "height": 800,
       "printable": "challenge-10.pdf"
+    },
+    {
+      "id": "11",
+      "title": "Was that always there?",
+      "description": "Look once, note what stands out, then look again with a new cue. Afterwards, turn the same three arches into three different possibilities while keeping every original mark visible.",
+      "alt": "Three equal dark green semicircular arches sit side by side at the same height, open at the bottom.",
+      "focus": "Attention and noticing",
+      "reflection": "Did the image change, or did what you noticed change? What might you still be overlooking?",
+      "image": "playground/reference-marks/11.svg",
+      "page": "challenge-11.html",
+      "width": 800,
+      "height": 800,
+      "printable": "challenge-11.pdf"
     }
   ]
 }
