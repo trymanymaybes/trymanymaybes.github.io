@@ -16,7 +16,7 @@ async function init(){
  for(const c of groups.filter(c=>c.examples.length)){
   const details=node('details',null,'challenge-gallery');details.id='challenge-'+c.id;
   const summary=node('summary');summary.append(node('span','Challenge '+c.id,'gallery-number'),node('h2',c.title),node('span',c.examples.length+' illustrative possibilities','gallery-count'));
-  const content=node('div',null,'gallery-content');content.append(link('Read the challenge →',c.page));
+  const content=node('div',null,'gallery-content');content.append(link('Read the challenge →',c.page),document.createTextNode(' · '),link('Watch videos →','gallery.html#videos-'+c.id));
   for(const e of c.examples){
    const article=node('article',null,'gallery-example');article.id=e.id;
    const a=link('',e.page);a.append(image(e.image,e.alt));
@@ -37,6 +37,7 @@ async function init(){
   $('possibility-challenge').textContent='Challenge '+c.id;
   $('possibility-title').textContent=c.title;
   $('possibility-prompt').textContent=c.description;
+  let watch=$('possibility-watch');if(!watch){watch=link('Watch this challenge’s videos →','');watch.id='possibility-watch';$('possibility-explanation').after(watch);}watch.href='#videos-'+c.id;
   $('possibility-starter-link').href=c.page;
   $('possibility-starter-link').setAttribute('aria-label','Open Challenge '+c.id+': '+c.title);
   $('possibility-starter').src=c.image;$('possibility-starter').alt=c.alt;
@@ -66,3 +67,4 @@ async function init(){
  $('possibility-loading').hidden=true;$('possibility-content').hidden=false;show();
 }
 init().catch(()=>{$('possibility-loading').textContent='The preview is temporarily unavailable. Browse the examples below.';});
+
